@@ -10,7 +10,7 @@ public class MusicPlay extends JFrame{
 	private JButton 선택, 채팅,악기1,악기2,악기3,악기4;
 	private JLabel 악보,blank;
 	private JComboBox sheet;
-	private String sheet_name[] = {"곰세마리","나비야","학교종이 땡땡땡","버즈-겁쟁이","메모"};
+	private String sheet_name[] = {"곰세마리","나비야","학교종이 땡땡땡","버즈-겁쟁이","메모dsds"};
 	
 	public MusicPlay(){
 		
