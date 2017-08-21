@@ -10,18 +10,18 @@ public class LetsGetItClient extends JFrame /*implements ActionListener */{
 	private JButton ok, chat,btn1,btn2,btn3,btn4;
 	private JLabel sheet_la,blank;
 	private JComboBox sheet;
-	private String sheet_name[] = {"곰세마리","�굹鍮꾩빞","�븰援먯쥌�씠 �븸�븸�븸","踰꾩쫰-寃곸웳�씠","硫붾え"};
+	private String sheet_name[] = {"곰세마리","나비야","학교종이 땡땡땡","버즈-겁쟁이","메모"};
 	
 	public LetsGetItClient() {
-		// �븙蹂�
+		// 악보
 		p = new JPanel();
 		p.setLayout(new GridLayout(1,4,5,5));
 		p1 = new JPanel();
 
 		blank = new JLabel();
-		sheet_la = new JLabel("�븙蹂� : ");
+		sheet_la = new JLabel("악보 : ");
 		sheet = new JComboBox(sheet_name);
-		ok = new JButton("�꽑�깮");
+		ok = new JButton("선택");
 				
 		p1.add(sheet_la);
 		p1.add(sheet);
@@ -33,7 +33,7 @@ public class LetsGetItClient extends JFrame /*implements ActionListener */{
 		p.add(blank);
 		add(p,"North");
 				
-		// �븙湲�
+		// 악기
 		p2 = new JPanel();
 		p2.setLayout(new GridLayout(2,2,10,10));
 			
@@ -48,14 +48,14 @@ public class LetsGetItClient extends JFrame /*implements ActionListener */{
 		p2.add(btn4);
 		add(p2);
 
-		// 梨꾪똿
+		// 채팅
 		p3 = new JPanel();
 		p3.setLayout(new GridLayout(1,1));
 
-		chat = new JButton("梨꾪똿");
+		chat = new JButton("채팅");
 		p3.add(chat);
 
-		// �븙湲� + 梨꾪똿
+		// 악기 + 채팅
 		pall = new JPanel();
 		pall.setLayout(new GridLayout(1,2,10,10));
 				
@@ -67,15 +67,5 @@ public class LetsGetItClient extends JFrame /*implements ActionListener */{
 		setVisible(true);
 		setBounds(100,50,1400,900);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	}
-	
-public static void main(String[] args) {
-		
-		MusicPlay musicPlay = new MusicPlay();			// 繹먲옙占쏙옙占쎌깈, 占쎌�占쎌굺沃섓옙 �뤃�뗭겱
-		Chatting chatting = new Chatting();				// 占쎈립占쎄맒筌ｏ옙 �뤃�뗭겱
-		Help help = new Help();							// 占쎌몖占쎌삺占쎌겫 �뤃�뗭겱
-		LetsGetIt letsGetIt = new LetsGetIt();			// �⑤벏�꽰 �뤃�뗭겱
-		
-		new LetsGetItClient();
 	}
 }
