@@ -4,9 +4,6 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class SheetMusic{
-	
-}
 
 public class MusicPlay extends JFrame{
 	private JPanel p,pæ«∫∏,p√§∆√,pæ«±‚,p¿¸√º;
