@@ -41,7 +41,8 @@ public class SheetMusic extends JFrame {
       init();
       
       setVisible(true);
-      setBounds(100,50,930,900);
+      setBounds(100,50,980,900);
+      setAlwaysOnTop(true);
    }
    
 /*   public void showSheet2(int index) throws IOException{
