@@ -8,7 +8,6 @@ import java.io.*;
 
 public class MusicPlay extends JFrame{
 	SheetMusic sm;
-	LetsGetItServer ls;
 	int index;
 	
 	public MusicPlay(int index) throws IOException{

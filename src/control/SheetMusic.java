@@ -9,7 +9,6 @@ import java.io.*;
 public class SheetMusic extends JFrame {
    int index;
    Image img = null;
-   LetsGetItServer ls;
    
    public SheetMusic(){}
    
@@ -42,8 +41,7 @@ public class SheetMusic extends JFrame {
       init();
       
       setVisible(true);
-      setSize(700,500);
-      setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      setBounds(100,50,930,900);
    }
    
 /*   public void showSheet2(int index) throws IOException{
