@@ -4,22 +4,20 @@ import javax.swing.*;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 
 public class LetsGetIt extends JFrame /*implements ActionListener */{
-
+	LetsGetItServer letsGetItS;
 	
-	public LetsGetIt() {
-		
+	private void open() {
+		//악보 선택 시 윈도우 창에 악보 띄워줌
+		letsGetItS = new LetsGetItServer();
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		
-		MusicPlay musicPlay = new MusicPlay();			// 김대호, 유혜미 구현
-		Chatting chatting = new Chatting();				// 한상철 구현
-		Help help = new Help();							// 윤재혁 구현
-		LetsGetIt letsGetIt = new LetsGetIt();			// 공통 구현
-		
-		
+		LetsGetIt letsGetIt = new LetsGetIt();			
+		letsGetIt.open();							
 	}
 
 }

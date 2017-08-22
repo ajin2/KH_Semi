@@ -68,14 +68,4 @@ public class LetsGetItClient extends JFrame /*implements ActionListener */{
 		setBounds(100,50,1400,900);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
-	
-public static void main(String[] args) {
-		
-		MusicPlay musicPlay = new MusicPlay();			// 源����샇, �쑀�삙誘� 援ы쁽
-		Chatting chatting = new Chatting();				// �븳�긽泥� 援ы쁽
-		Help help = new Help();							// �쑄�옱�쁺 援ы쁽
-		LetsGetIt letsGetIt = new LetsGetIt();			// 怨듯넻 援ы쁽
-		
-		new LetsGetItClient();
-	}
 }
