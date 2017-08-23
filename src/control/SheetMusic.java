@@ -14,16 +14,16 @@ public class SheetMusic extends JFrame {
       this.index = index;
       File f = new File("");
       
-      if(index==0){               // ComboBox index°¡ 1ÀÏ¶§ ( °õ¼¼¸¶¸® )
-         f = new File("img/°õ¼¼¸¶¸®.jpg");
-      }else if(index==1){            // ComboBox index°¡ 2ÀÏ¶§ ( ³ªºñ¾ß )
-         f = new File("img/³ªºñ¾ß.jpg");
-      }else if(index==2){            // ComboBox index°¡ 3ÀÏ¶§ ( ÇĞ±³Á¾ÀÌ ¶¯¶¯¶¯ )
-         f = new File("img/ÇĞ±³Á¾.jpg");
-      }else if(index==3){            // ComboBox index°¡ 4ÀÏ¶§ ( ¹öÁî-°ÌÀïÀÌ )
-         f = new File("img/°ÌÀïÀÌ.jpg");
-      }else if(index==4){            // ComboBox index°¡ 5ÀÏ¶§ ( ¸Ş¸ğ )
-         f = new File("img/¸Ş¸ğ.jpg");
+      if(index==0){               
+         f = new File("img/ê³°ì„¸ë§ˆë¦¬.jpg");
+      }else if(index==1){           
+         f = new File("img/ë‚˜ë¹„ì•¼.jpg");
+      }else if(index==2){           
+         f = new File("img/í•™êµì¢….jpg");
+      }else if(index==3){           
+         f = new File("img/ë²„ì¦ˆ-ê²ìŸì´.jpg");
+      }else if(index==4){           
+         f = new File("img/ë©”ëª¨.jpg");
       }
       
       return f;
@@ -35,18 +35,18 @@ public class SheetMusic extends JFrame {
 	      
 	      String filePath = "";
 	      
-	      if(index==0){               // ComboBox index°¡ 1ÀÏ¶§ ( °õ¼¼¸¶¸® )
-	    	 filePath = "img/°õ¼¼¸¶¸®.jpg";
-	      }else if(index==1){            // ComboBox index°¡ 2ÀÏ¶§ ( ³ªºñ¾ß )
-	    	  filePath = "img/³ªºñ¾ß.jpg";
-	      }else if(index==2){            // ComboBox index°¡ 3ÀÏ¶§ ( ÇĞ±³Á¾ÀÌ ¶¯¶¯¶¯ )
-	         f = new File("img/ÇĞ±³Á¾ÀÌ ¶¯¶¯¶¯.jpg");
+	      if(index==0){               // ComboBox indexï¿½ï¿½ 1ï¿½Ï¶ï¿½ ( ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ )
+	    	 filePath = "img/ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.jpg";
+	      }else if(index==1){            // ComboBox indexï¿½ï¿½ 2ï¿½Ï¶ï¿½ ( ï¿½ï¿½ï¿½ï¿½ï¿½ )
+	    	  filePath = "img/ï¿½ï¿½ï¿½ï¿½ï¿½.jpg";
+	      }else if(index==2){            // ComboBox indexï¿½ï¿½ 3ï¿½Ï¶ï¿½ ( ï¿½Ğ±ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ )
+	         f = new File("img/ï¿½Ğ±ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.jpg");
 	         img = ImageIO.read(f);   
-	      }else if(index==3){            // ComboBox index°¡ 4ÀÏ¶§ ( ¹öÁî-°ÌÀïÀÌ )
-	         f = new File("img/¹öÁî-°ÌÀïÀÌ.jpg");
+	      }else if(index==3){            // ComboBox indexï¿½ï¿½ 4ï¿½Ï¶ï¿½ ( ï¿½ï¿½ï¿½ï¿½-ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ )
+	         f = new File("img/ï¿½ï¿½ï¿½ï¿½-ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.jpg");
 	         img = ImageIO.read(f);
-	      }else if(index==4){            // ComboBox index°¡ 5ÀÏ¶§ ( ¸Ş¸ğ )
-	         f = new File("img/¸Ş¸ğ.jpg");
+	      }else if(index==4){            // ComboBox indexï¿½ï¿½ 5ï¿½Ï¶ï¿½ ( ï¿½Ş¸ï¿½ )
+	         f = new File("img/ï¿½Ş¸ï¿½.jpg");
 	         img = ImageIO.read(f);   
 	      }
 	      
