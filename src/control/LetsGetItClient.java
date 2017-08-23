@@ -32,7 +32,8 @@ public class LetsGetItClient extends JFrame implements ActionListener {
    SheetMusic sm;
    int index;
    JPanel p,p1,p2,p3,p4,p5,p6,p_;
-   JButton ok,send,btn1,btn2,btn3,btn4,b1,b2;
+   JButton ok,send,b1,b2;
+   JButton pianoBtn,electricBtn,bassBtn,drumBtn;			// Instrument Button
    JTextArea ta;
    JTextField tf;
    JScrollPane jsp;
@@ -134,10 +135,10 @@ public class LetsGetItClient extends JFrame implements ActionListener {
         // p4 > South > tf,send
         // p6 > Center > ta ----------------------------------------------------------
         
-         btn1 = new JButton("Piano");
-         btn2 = new JButton("Electric");
-         btn3 = new JButton("Bass");
-         btn4 = new JButton("Drum");
+         pianoBtn = new JButton("Piano");
+         electricBtn = new JButton("Electric");
+         bassBtn = new JButton("Bass");
+         drumBtn = new JButton("Drum");
          
          
          GridBagLayout gbl = new GridBagLayout();
@@ -147,10 +148,10 @@ public class LetsGetItClient extends JFrame implements ActionListener {
          
          addGrid(gbl, gbc, p,    0, 0, 4, 1, 0.5, 0);
          addGrid(gbl, gbc, p_, 	 5, 0, 1, 1, 0.5, 0);
-         addGrid(gbl, gbc, btn1, 0, 1, 2, 2, 1, 2);
-         addGrid(gbl, gbc, btn2, 2, 1, 2, 2, 1, 2);
-         addGrid(gbl, gbc, btn3, 0, 4, 2, 2, 1, 2);
-         addGrid(gbl, gbc, btn4, 2, 4, 2, 2, 1, 2);
+         addGrid(gbl, gbc, pianoBtn, 0, 1, 2, 2, 1, 2);
+         addGrid(gbl, gbc, electricBtn, 2, 1, 2, 2, 1, 2);
+         addGrid(gbl, gbc, bassBtn, 0, 4, 2, 2, 1, 2);
+         addGrid(gbl, gbc, drumBtn, 2, 4, 2, 2, 1, 2);
          addGrid(gbl, gbc, p2,   5, 1, 1, 5, 0.5, 5);
          
          pack();
