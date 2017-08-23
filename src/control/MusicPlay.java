@@ -23,8 +23,8 @@ public class MusicPlay extends JFrame {
 		JLabel sheet = new JLabel(new ImageIcon(chimg));
 		psheet.add(sheet);
 	}
-
-	public void addGrid(GridBagLayout gbl, GridBagConstraints gbc, Component c, int gridx, int gridy, int gridwidth,
+		
+		public void addGrid(GridBagLayout gbl, GridBagConstraints gbc, Component c, int gridx, int gridy, int gridwidth,
 			int gridheight, int weightx, int weighty) {
 		gbc.gridx = gridx;
 		gbc.gridy = gridy;
@@ -58,10 +58,17 @@ public class MusicPlay extends JFrame {
 		sm = new SheetMusic();
 		img = ImageIO.read(sm.showSheet(index));
 		init();
+
 		// ----------------------------------------------- �Ǻ����
 
 		btn = new JButton("�Ǳ�");
 		// ----------------------------------------------- �Ǳⱸ�� ���
+
+		// ----------------------------------------------- 악보
+
+		btn = new JButton("악기");
+		// ----------------------------------------------- 악기구현
+
 
 		GridBagLayout gbl = new GridBagLayout();
 		GridBagConstraints gbc = new GridBagConstraints();
