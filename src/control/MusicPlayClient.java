@@ -1,23 +1,33 @@
 package control;
 
 import javax.swing.*;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.*;
 import java.io.*;
+import javax.sound.sampled.*;
+import javax.swing.*;
+import javax.sound.midi.*;
 
-public class MusicPlayClient extends JFrame {
-	SheetMusic sm;
-	Instrument instrument;
-	int index;
-	Image img = null, instrumentImg = null, chimg, instruimg;
+public class MusicPlayClient extends JFrame implements ActionListener {
 	JMenuBar mb;
 	JMenu mdrawing;
 	JMenuItem msheet, mmemo, msave;
+	Instrument instrument;
+	
+	int index;
+	Image img = null, instrumentImg = null, chimg, instruimg;
 	JPanel psheet, instruPanel;
-	JButton btn;
-
+	SheetMusic sm;
+	
+	int instrumentNum;
+	long keyPressedMillis;
+	JPanel buttonPanel;
+	JButton DolemiBtn[];
+	
 	public void init() {
 		psheet = new JPanel();
 		psheet.setLayout(new GridLayout(1, 1));
@@ -46,7 +56,6 @@ public class MusicPlayClient extends JFrame {
 	}
 
 	public MusicPlayClient(int index, int instrumentNum) throws IOException {
-
 		// MenuBar
 		mb = new JMenuBar();
 		setJMenuBar(mb);
@@ -70,34 +79,18 @@ public class MusicPlayClient extends JFrame {
 		instrument = new Instrument();
 		instrumentImg = ImageIO.read(instrument.instrumentShow(index));
 		instrumentInit();
+
+		this.instrumentNum = instrumentNum;
 		
 		// ----------------------------------------------- �Ǻ����
 
-		btn = new JButton("�Ǳ�");
-		// ----------------------------------------------- �Ǳⱸ�� ���
-
-		// ----------------------------------------------- 악보
-
-		btn = new JButton("악기");
-		
-		if(instrumentNum == 0){
-			
-		} else if(instrumentNum == 1) {
-			
-		} else if(instrumentNum == 2) {
-			
-		} else if(instrumentNum == 3) {
-			
-		}
-		
-		
 		GridBagLayout gbl = new GridBagLayout();
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.fill = GridBagConstraints.BOTH;
 		setLayout(gbl);
 
 		addGrid(gbl, gbc, psheet, 0, 0, 1, 1, 1, 1);
-		addGrid(gbl, gbc, btn, 0, 1, 1, 1, 1, 4);
+		addGrid(gbl, gbc, instruPanel, 0, 1, 1, 1, 1, 4);
 
 		pack();
 
@@ -106,6 +99,26 @@ public class MusicPlayClient extends JFrame {
 		setAlwaysOnTop(true);
 		setResizable(false);
 
+	}	// 생성자
+	
+	public void actionPerformed(ActionEvent event) {
+		Object obj = event.getSource();
+		
+		
+		
+		// TODO 여기까지 하다가 말았음. 데이터 넘겨받는거 해야함.
+		// pressed instruments
+		for(int i = 0; i < 8; i++) {
+			if(instrumentNum == 0) {
+				
+			} else if(instrumentNum == 1) {
+				
+			} else if(instrumentNum == 2) {
+				
+			} else if(instrumentNum == 3) {
+				
+			}
+		}
 	}
 	
 	
