@@ -193,7 +193,7 @@ public class LetsGetItClient extends JFrame implements ActionListener {
 		// TODO 서버에서 선택한 악보 값 넘겨 받는 걸로 바꿔야할듯
 		//LetsGetItServer lgis = new LetsGetItServer();// 서버에서 악보를 선택했을 때를 알리기 위해 사용	lgis.checkOk
 		
-		boolean onlyTestBooleanValue = false;
+		boolean onlyTestBooleanValue = true;
 		
 		if (obj == ok) {
 			onlyTestBooleanValue = true;
@@ -214,19 +214,22 @@ public class LetsGetItClient extends JFrame implements ActionListener {
 	         }catch(IOException ee){
 	            ee.printStackTrace();
 	         }
-		} else if (obj == electricBtn && onlyTestBooleanValue == true) {
+		}
+		if (obj == electricBtn && onlyTestBooleanValue == true) {
 			try{
 	            musicPlayClient = new MusicPlayClient(getIndex(), 1);      // 踰꾪듉 �겢由� �떆 MusicPlay �떎�뻾
 	         }catch(IOException ee){
 	            ee.printStackTrace();
 	         }
-		} else if (obj == bassBtn &&  onlyTestBooleanValue == true) {
+		} 
+		if (obj == bassBtn &&  onlyTestBooleanValue == true) {
 			try{
 	            musicPlayClient = new MusicPlayClient(getIndex(), 2);      // 踰꾪듉 �겢由� �떆 MusicPlay �떎�뻾
 	         }catch(IOException ee){
 	            ee.printStackTrace();
 	         }
-		} else if (obj == drumBtn &&  onlyTestBooleanValue == true) {
+		}
+		if (obj == drumBtn &&  onlyTestBooleanValue == true) {
 			try{
 	            musicPlayClient = new MusicPlayClient(getIndex(), 3);      // 踰꾪듉 �겢由� �떆 MusicPlay �떎�뻾
 	         }catch(IOException ee){
