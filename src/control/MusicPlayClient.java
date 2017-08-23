@@ -3,17 +3,19 @@ package control;
 import javax.swing.*;
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.image.*;
 import java.io.*;
 
-public class MusicPlay extends JFrame {
+public class MusicPlayClient extends JFrame {
 	SheetMusic sm;
+	Instrument instrument;
 	int index;
-	Image img = null, chimg;
+	Image img = null, instrumentImg = null, chimg, instruimg;
 	JMenuBar mb;
 	JMenu mdrawing;
 	JMenuItem msheet, mmemo, msave;
-	JPanel psheet, pmusic;
+	JPanel psheet, instruPanel;
 	JButton btn;
 
 	public void init() {
@@ -22,6 +24,13 @@ public class MusicPlay extends JFrame {
 		chimg = img.getScaledInstance(650, 420, java.awt.Image.SCALE_SMOOTH);
 		JLabel sheet = new JLabel(new ImageIcon(chimg));
 		psheet.add(sheet);
+	}
+	
+	public void instrumentInit() {
+		instruPanel = new JPanel();
+		instruimg = instrumentImg.getScaledInstance(650, 420, java.awt.Image.SCALE_SMOOTH);
+		JLabel instru = new JLabel(new ImageIcon(instruimg));
+		instruPanel.add(instru);
 	}
 		
 		public void addGrid(GridBagLayout gbl, GridBagConstraints gbc, Component c, int gridx, int gridy, int gridwidth,
@@ -36,7 +45,7 @@ public class MusicPlay extends JFrame {
 		add(c);
 	}
 
-	public MusicPlay(int index) throws IOException {
+	public MusicPlayClient(int index, int instrumentNum) throws IOException {
 
 		// MenuBar
 		mb = new JMenuBar();
@@ -54,11 +63,14 @@ public class MusicPlay extends JFrame {
 		mdrawing.add(msave);
 
 		// Sheet Print
-
 		sm = new SheetMusic();
 		img = ImageIO.read(sm.showSheet(index));
 		init();
-
+		// Instrument Print 
+		instrument = new Instrument();
+		instrumentImg = ImageIO.read(instrument.instrumentShow(index));
+		instrumentInit();
+		
 		// ----------------------------------------------- �Ǻ����
 
 		btn = new JButton("�Ǳ�");
@@ -67,9 +79,18 @@ public class MusicPlay extends JFrame {
 		// ----------------------------------------------- 악보
 
 		btn = new JButton("악기");
-		// ----------------------------------------------- 악기구현
-
-
+		
+		if(instrumentNum == 0){
+			
+		} else if(instrumentNum == 1) {
+			
+		} else if(instrumentNum == 2) {
+			
+		} else if(instrumentNum == 3) {
+			
+		}
+		
+		
 		GridBagLayout gbl = new GridBagLayout();
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.fill = GridBagConstraints.BOTH;
@@ -86,6 +107,7 @@ public class MusicPlay extends JFrame {
 		setResizable(false);
 
 	}
+	
 	
 	
 }

@@ -40,6 +40,8 @@ public class LetsGetItServer extends JFrame implements ActionListener {
 	JLabel sheet_la, blank;
 	JComboBox<String> sheet;
 	String sheet_name[] = { "곰세마리", "나비야", "학교종이 땡땡땡", "버즈-겁쟁이", "메모" };
+	boolean checkOk = false; 		// 클라이언트에게 악보를 설정했다고 알려주는 변수.
+	
 
 	public int getIndex() {
 		index = sheet.getSelectedIndex();
@@ -183,12 +185,17 @@ public class LetsGetItServer extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
 		String msg = tf.getText();
+
+		
 		if (obj == ok) {
 			try {
-				mp = new MusicPlay(getIndex());
+				mp = new MusicPlay(getIndex()); // 踰꾪듉 �겢由� �떆 MusicPlay �떎�뻾
 			} catch (IOException ee) {
 				ee.printStackTrace();
 			}
+			
+			// 클라이언트에게 버튼이 눌렸는지 알려주는 boolean값
+			checkOk = true;
 		}
 		if (obj == send || obj == tf) {
 			String str = tf.getText();

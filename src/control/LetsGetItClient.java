@@ -40,7 +40,10 @@ public class LetsGetItClient extends JFrame implements ActionListener {
 	JLabel sheet_la, blank;
 	JComboBox<String> sheet;
 	String sheet_name[] = { "곰세마리", "나비야", "학교종이 땡땡땡", "버즈-겁쟁이", "메모" };
-
+	MusicPlayClient musicPlayClient;
+	
+	
+	// TODO 서버가 지정한 악보 데이터로 바꿔야함.
 	public int getIndex() {
 		index = sheet.getSelectedIndex();
 		return index;
@@ -187,6 +190,15 @@ public class LetsGetItClient extends JFrame implements ActionListener {
 		Object obj = e.getSource();
 		String msg = tf.getText();
 
+		// TODO 서버에서 선택한 악보 값 넘겨 받는 걸로 바꿔야할듯
+		//LetsGetItServer lgis = new LetsGetItServer();// 서버에서 악보를 선택했을 때를 알리기 위해 사용	lgis.checkOk
+		
+		boolean onlyTestBooleanValue = false;
+		
+		if (obj == ok) {
+			onlyTestBooleanValue = true;
+		}
+		
 		if (obj == send || obj == tf) {
 			String str = tf.getText();
 			if (!str.equals("")) {
@@ -195,18 +207,31 @@ public class LetsGetItClient extends JFrame implements ActionListener {
 			}
 		}
 
-		if (obj == pianoBtn) {
-			
-		}
-
-		if (obj == electricBtn) {
-
-		}
-		if (obj == bassBtn) {
-
-		}
-		if (obj == drumBtn) {
-
+		// 서버가 악보를 선택하고 사용자가 악기를 클릭했을 때
+		if (obj == pianoBtn &&  onlyTestBooleanValue == true) {
+			try{
+	            musicPlayClient = new MusicPlayClient(getIndex(), 0);      // 踰꾪듉 �겢由� �떆 MusicPlay �떎�뻾
+	         }catch(IOException ee){
+	            ee.printStackTrace();
+	         }
+		} else if (obj == electricBtn && onlyTestBooleanValue == true) {
+			try{
+	            musicPlayClient = new MusicPlayClient(getIndex(), 1);      // 踰꾪듉 �겢由� �떆 MusicPlay �떎�뻾
+	         }catch(IOException ee){
+	            ee.printStackTrace();
+	         }
+		} else if (obj == bassBtn &&  onlyTestBooleanValue == true) {
+			try{
+	            musicPlayClient = new MusicPlayClient(getIndex(), 2);      // 踰꾪듉 �겢由� �떆 MusicPlay �떎�뻾
+	         }catch(IOException ee){
+	            ee.printStackTrace();
+	         }
+		} else if (obj == drumBtn &&  onlyTestBooleanValue == true) {
+			try{
+	            musicPlayClient = new MusicPlayClient(getIndex(), 3);      // 踰꾪듉 �겢由� �떆 MusicPlay �떎�뻾
+	         }catch(IOException ee){
+	            ee.printStackTrace();
+	         }
 		}
 
 	}
