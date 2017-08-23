@@ -9,7 +9,7 @@ public class InstrumentPiano extends Thread {
 	Sequencer sequencer = null; //음악 파일이고
 	Sequence sequence = null; //플레이어라고 생각하면 쉽다.
 	
-	String directory = "C:/Users/hanaj/workspace/HurryUp/src/Dumb/soundTest/";
+	String directory = "testpiano/";
 	
 	public InstrumentPiano(int songNumber) {
 		try {
@@ -23,7 +23,6 @@ public class InstrumentPiano extends Thread {
 		} catch (Exception e) {
 			System.out.println(e);
 		} 
-		
 	}
 	
 	public void run() {
