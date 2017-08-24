@@ -45,7 +45,7 @@ public class LetsGetIt extends JFrame {
 		
 		LetsGetIt letsGetIt = new LetsGetIt();			
 		//letsGetIt.Server();		
-		Ex1 ex1 = new Ex1();
+		//Ex1 ex1 = new Ex1();
 	}
 
 }
