@@ -9,7 +9,7 @@ import javax.swing.JFrame;
 public class SheetDrawing extends JFrame implements ActionListener { 
 	Button ba,r,gr,b,c,ac,bold,thin,ori;
 	Panel p;
-	DrawCanvas dc;
+//	DrawCanvas dc;
 	int width=2;
 	
     public SheetDrawing() {
@@ -42,12 +42,12 @@ public class SheetDrawing extends JFrame implements ActionListener {
     	p.add(thin);
     	p.add(ori);
     	
-    	dc = new DrawCanvas();
+   /* 	dc = new DrawCanvas();
     	dc.setC(Color.BLACK);
     	dc.setW(width);
     	
     	add("North", p);
-        add("Center",dc);
+        add("Center",dc);*/
         
         ba.addActionListener(this);
         r.addActionListener(this);
@@ -70,7 +70,7 @@ public class SheetDrawing extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
 		
-		if(obj == ba){
+		/*if(obj == ba){
 			dc.setC(Color.BLACK);
 		}else if(obj == r){
 			dc.setC(Color.RED);
@@ -91,11 +91,11 @@ public class SheetDrawing extends JFrame implements ActionListener {
 		}else if(obj == ori){
 			width = 2;
 			dc.setW(width);
-		}
+		}*/
 	}//------------------------------------------------------ 버튼이벤트
     
 	public static void main(String[] args) { 
-		DrawCanvas dc = new DrawCanvas();
+	//	DrawCanvas dc = new DrawCanvas();
 		SheetDrawing f = new SheetDrawing();
          f.Draw();
         

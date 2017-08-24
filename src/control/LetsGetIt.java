@@ -32,11 +32,14 @@ public class LetsGetIt extends JFrame {
 		this.checkServer = checkServer;
 	}
 	
-	private void Server() {
-		//악보 선택 시 윈도우 창에 악보 띄워줌
-		letsGetItS = new LetsGetItServer();
+	private void Server() throws IOException {
+		letsGetItS = new LetsGetItServer(4500);
 	}
 	
+	private void Client() throws IOException {
+		letsGetItC = new LetsGetItClient("192.168.10.13", 4500, "Test User");
+	}
+
 	/*private void Client(){
 		letsGetItC = new LetsGetItClient();
 	}*/
@@ -44,8 +47,11 @@ public class LetsGetIt extends JFrame {
 	public static void main(String[] args) throws IOException { 
 		
 		LetsGetIt letsGetIt = new LetsGetIt();			
-		//letsGetIt.Server();		
-		Ex1 ex1 = new Ex1();
+
+		letsGetIt.Server();			
+		//letsGetIt.Client();
+	//	Ex1 ex1 = new Ex1();
+
 	}
 
 }
