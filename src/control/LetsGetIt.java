@@ -37,15 +37,15 @@ public class LetsGetIt extends JFrame {
 		letsGetItS = new LetsGetItServer();
 	}
 	
-	private void Client(){
+	/*private void Client(){
 		letsGetItC = new LetsGetItClient();
-	}
+	}*/
 	
 	public static void main(String[] args) throws IOException {
 		
 		LetsGetIt letsGetIt = new LetsGetIt();			
-		//letsGetIt.Server();			
-		letsGetIt.Client();
+		//letsGetIt.Server();		
+		Ex1 ex1 = new Ex1();
 	}
 
 }

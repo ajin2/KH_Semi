@@ -31,6 +31,7 @@ public class LetsGetItClient extends JFrame implements ActionListener {
 	MusicPlay mp;
 	SheetMusic sm;
 	int index;
+	String id;
 	JPanel p, p1, p2, p3, p4, p5, p6, p_;
 	JButton ok, send, b1, b2;
 	JButton pianoBtn, electricBtn, bassBtn, drumBtn; // Instrument Button
@@ -61,8 +62,8 @@ public class LetsGetItClient extends JFrame implements ActionListener {
 		add(c);
 	}
 
-	public LetsGetItClient() {
-
+	public LetsGetItClient(String str) {
+		id = str;
 		// GridBagLayout
 		// SheetName, Button
 		p_ = new JPanel();
@@ -202,7 +203,7 @@ public class LetsGetItClient extends JFrame implements ActionListener {
 		if (obj == send || obj == tf) {
 			String str = tf.getText();
 			if (!str.equals("")) {
-				ta.append(" >> " + str + "\n");
+				ta.append(id + " >> " + str + "\n");
 				tf.setText("");
 			}
 		}
