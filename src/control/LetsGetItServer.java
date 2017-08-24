@@ -110,7 +110,7 @@ public class LetsGetItServer extends JFrame implements ActionListener {
 		p3.add("West", p5);
 		chatPanel.add("North", p3);
 
-		writePanel.add("West", chatField); //
+		writePanel.add("West", chatField);
 		writePanel.add("East", send);
 		chatPanel.add("South", writePanel);
 		
@@ -150,8 +150,8 @@ public class LetsGetItServer extends JFrame implements ActionListener {
 		setVisible(true);
 		setBounds(115, 50, 1670, 900);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		// key event
 
+		// key event
 		chatField.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
 				switch (e.getKeyCode()) {
@@ -194,30 +194,8 @@ public class LetsGetItServer extends JFrame implements ActionListener {
 			// 클라이언트에게 버튼이 눌렸는지 알려주는 boolean값
 			checkOk = true;
 		}
-		
-/*		if (obj == send || obj == chatField) {
-			String str = chatField.getText();
-			if (!str.equals("")) {
-				try {
-					oos.writeObject(id + " >> "  + msg);
-					//chatArea.append(" >> " + str + "\n");
-				} catch(IOException exception) {
-					exception.printStackTrace();
-				}
-				chatField.setText("");
-			}
-		}
-*/	}
-/*	public void init() throws IOException {
-		socket = new Socket(port);
-		oos = new ObjectOutputStream(socket.getOutputStream());
-		ois = new ObjectInputStream(socket.getInputStream());
-		
-		RcvChatThread rct = new RcvChatThread(this);
-		Thread t = new Thread(rct);
-		t. start();
 	}
-*/	
+	
 	public ArrayList< BroadCastThread > getList() {
 		return broadList;
 	}
