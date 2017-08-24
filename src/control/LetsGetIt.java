@@ -37,15 +37,21 @@ public class LetsGetIt extends JFrame {
 	}
 	
 	private void Client() throws IOException {
-		// TODO LetsGetItClient Parameter는 사용자 아이디
 		letsGetItC = new LetsGetItClient("192.168.10.13", 4500, "Test User");
 	}
+
+	/*private void Client(){
+		letsGetItC = new LetsGetItClient();
+	}*/
 	
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException { 
 		
 		LetsGetIt letsGetIt = new LetsGetIt();			
+
 		letsGetIt.Server();			
 		//letsGetIt.Client();
+	//	Ex1 ex1 = new Ex1();
+
 	}
 
 }
