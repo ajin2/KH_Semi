@@ -30,7 +30,6 @@ public class LetsGetItClient extends JFrame implements ActionListener {
 	 *  MusicPlayClient Window가 활동되도록 수정해야함.
 	 */
 	
-	
 	// Network Module
 	private Socket socket;
 	private ObjectInputStream ois;
@@ -57,14 +56,13 @@ public class LetsGetItClient extends JFrame implements ActionListener {
 		gbl.setConstraints(c, gbc);
 		add(c);
 	}
-
-	public LetsGetItClient(String ip, int port, String argId) throws IOException, UnknownHostException {
+	
+	public LetsGetItClient(String ip, int port, String id) throws IOException, UnknownHostException {
 		// Network Module
-		this.id = argId;
+		this.id = id;
 		this.ip = ip;
 		this.port = port;
 		
-				
 		// GridBagLayout
 		// SheetName, Button
 		p_ = new JPanel();
@@ -128,11 +126,6 @@ public class LetsGetItClient extends JFrame implements ActionListener {
 
 		readPanel.add(jsp);
 		chatPanel.add(readPanel);
-
-		// p3 > West > p5 > North > b1,b2
-		// writePanel > South > tf,send
-		// readPanel > Center > ta
-		// ----------------------------------------------------------
 
 		pianoBtn = new JButton("Piano");
 		electricBtn = new JButton("Electric");
@@ -261,10 +254,5 @@ public class LetsGetItClient extends JFrame implements ActionListener {
 	
 	public String getId() {
 		return id;
-	}
-	
-	public static void main(String[] args) throws IOException, UnknownHostException{
-		LetsGetItClient letsGetItC = new LetsGetItClient("localhost", 4500, "Test User");
-		letsGetItC.init();
 	}
 }

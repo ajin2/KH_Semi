@@ -28,7 +28,8 @@ public class Instrument extends Thread {
 		} else if (index == 3) {
 			f = new File("img/drum.png");
 		}
-			return f;		
+		
+		return f;		
 	}
 
 }

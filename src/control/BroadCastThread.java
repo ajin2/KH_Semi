@@ -10,8 +10,6 @@ public class BroadCastThread implements Runnable {
 	private ObjectInputStream ois;
 	private ObjectOutputStream oos;
 	
-	private String name;
-	
 	public BroadCastThread(LetsGetItServer server) {
 		this.server = server;
 	}
@@ -43,7 +41,6 @@ public class BroadCastThread implements Runnable {
 			System.out.println(socket.getInetAddress() + "님이 비정상적으로 종료되셨습니다.(Server)");
 		} finally {
 			try {
-				//broadCasting(socket.getInetAddress());
 				if(ois != null)			ois.close();
 				if(oos != null)			oos.close();
 				if(socket != null)		socket.close();

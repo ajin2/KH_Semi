@@ -54,21 +54,16 @@ public class MusicPlay extends JFrame {
 		mdrawing.add(msave);
 
 		// Sheet Print
-
 		sm = new SheetMusic();
 		img = ImageIO.read(sm.showSheet(index));
 		init();
 
-		// ----------------------------------------------- �Ǻ����
-
 		btn = new JButton("�Ǳ�");
-		// ----------------------------------------------- �Ǳⱸ�� ���
 
 		// ----------------------------------------------- 악보
 
 		btn = new JButton("악기");
 		// ----------------------------------------------- 악기구현
-
 
 		GridBagLayout gbl = new GridBagLayout();
 		GridBagConstraints gbc = new GridBagConstraints();
@@ -84,8 +79,5 @@ public class MusicPlay extends JFrame {
 		setBounds(118, 50, 1237, 893);
 		setAlwaysOnTop(true);
 		setResizable(false);
-
-	}
-	
-	
+	}	
 }
