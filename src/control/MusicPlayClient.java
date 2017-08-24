@@ -18,7 +18,9 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 	JMenuBar mb;
 	JMenu mdrawing;
 	JMenuItem msheet, mmemo, msave;
+	SheetSave sheetsave;
 	Instrument instrument;
+	InstrumentPiano piano;
 	
 	// 악보
 	int index;
@@ -32,6 +34,17 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 	Image instrumentImg = null, instruimg;
 	JPanel instruPanel, buttonPanel;
 	JButton DolemiBtn[];
+	
+	public void trycatchpiano(){
+		try {
+			piano.start();
+			synchronized(piano) {
+				piano.wait();
+			}
+		} catch(InterruptedException interrupt) {
+			interrupt.printStackTrace();
+		}
+	}
 	
 	public void init() {
 		psheet = new JPanel();
@@ -120,6 +133,11 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 		setAlwaysOnTop(true);
 		setResizable(false);
 		
+		msheet.addActionListener(this);
+		mmemo.addActionListener(this);
+		msave.addActionListener(this);
+		
+		
 		// TODO 코드 piano뿐만 아니라 bass drum elec까지 넣어야해서 코드 정리 필요함.
 		// Key Event
 		buttonPanel.requestFocus();
@@ -128,99 +146,35 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 				public void keyPressed(KeyEvent e) {
 					if(e.getKeyCode() == e.VK_A) {
 						InstrumentPiano piano = new InstrumentPiano(0);
-						
-						try {
-							piano.start();
-							synchronized(piano) {
-								piano.wait();
-							}
-						} catch(InterruptedException interrupt) {
-							interrupt.printStackTrace();
-						}
+						trycatchpiano();
 					}
 					if(e.getKeyCode() == e.VK_S) {
 						InstrumentPiano piano = new InstrumentPiano(1);
-						
-						try {
-							piano.start();
-							synchronized(piano) {
-								piano.wait();
-							}
-						} catch(InterruptedException interrupt) {
-							interrupt.printStackTrace();
-						}
+						trycatchpiano();
 					}
 					if(e.getKeyCode() == e.VK_D) {
 						InstrumentPiano piano = new InstrumentPiano(2);
-						
-						try {
-							piano.start();
-							synchronized(piano) {
-								piano.wait();
-							}
-						} catch(InterruptedException interrupt) {
-							interrupt.printStackTrace();
-						}
+						trycatchpiano();
 					}
 					if(e.getKeyCode() == e.VK_F) {
 						InstrumentPiano piano = new InstrumentPiano(3);
-						
-						try {
-							piano.start();
-							synchronized(piano) {
-								piano.wait();
-							}
-						} catch(InterruptedException interrupt) {
-							interrupt.printStackTrace();
-						}
+						trycatchpiano();
 					}
 					if(e.getKeyCode() == e.VK_G) {
 						InstrumentPiano piano = new InstrumentPiano(4);
-						
-						try {
-							piano.start();
-							synchronized(piano) {
-								piano.wait();
-							}
-						} catch(InterruptedException interrupt) {
-							interrupt.printStackTrace();
-						}
+						trycatchpiano();
 					}
 					if(e.getKeyCode() == e.VK_H) {
 						InstrumentPiano piano = new InstrumentPiano(5);
-						
-						try {
-							piano.start();
-							synchronized(piano) {
-								piano.wait();
-							}
-						} catch(InterruptedException interrupt) {
-							interrupt.printStackTrace();
-						}
+						trycatchpiano();
 					}
 					if(e.getKeyCode() == e.VK_J) {
 						InstrumentPiano piano = new InstrumentPiano(6);
-						
-						try {
-							piano.start();
-							synchronized(piano) {
-								piano.wait();
-							}
-						} catch(InterruptedException interrupt) {
-							interrupt.printStackTrace();
-						}
+						trycatchpiano();
 					}
 					if(e.getKeyCode() == e.VK_K) {
 						InstrumentPiano piano = new InstrumentPiano(7);
-						
-						try {
-							piano.start();
-							synchronized(piano) {
-								piano.wait();
-							}
-						} catch(InterruptedException interrupt) {
-							interrupt.printStackTrace();
-						}
+						trycatchpiano();
 					}
 				}
 			}
@@ -235,6 +189,17 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 	
 	public void actionPerformed(ActionEvent event) {
 		Object obj = event.getSource();
+		
+		// MenuItem
+		if(obj == msheet){
+			
+		}
+		if(obj == mmemo){
+			
+		}
+		if(obj == msave){
+			sheetsave = new sheetsave();
+		}
 		
 		// play instrument
 		for(int i = 0; i < 8; i++) {

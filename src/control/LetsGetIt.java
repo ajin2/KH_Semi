@@ -41,7 +41,7 @@ public class LetsGetIt extends JFrame {
 		letsGetItC = new LetsGetItClient();
 	}*/
 	
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException { 
 		
 		LetsGetIt letsGetIt = new LetsGetIt();			
 		//letsGetIt.Server();		

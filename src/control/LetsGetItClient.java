@@ -49,6 +49,8 @@ public class LetsGetItClient extends JFrame implements ActionListener {
 		index = sheet.getSelectedIndex();
 		return index;
 	}
+	
+	public String getID(){ return id; }
 
 	public void addGrid(GridBagLayout gbl, GridBagConstraints gbc, Component c, int gridx, int gridy, int gridwidth,
 			int gridheight, double weightx, int weighty) {
@@ -203,7 +205,7 @@ public class LetsGetItClient extends JFrame implements ActionListener {
 		if (obj == send || obj == tf) {
 			String str = tf.getText();
 			if (!str.equals("")) {
-				ta.append(id + " >> " + str + "\n");
+				ta.append(getID() + " >> " + str + "\n");
 				tf.setText("");
 			}
 		}
