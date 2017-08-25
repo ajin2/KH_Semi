@@ -10,6 +10,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.image.*;
 import java.io.*;
+import java.net.Socket;
+
 import javax.sound.sampled.*;
 import javax.swing.*;
 import javax.sound.midi.*;
@@ -35,17 +37,19 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 	JPanel instruPanel, buttonPanel;
 	JButton DolemiBtn[];
 	
-	public void trycatchpiano(){
-		try {
-			piano.start();
-			synchronized(piano) {
-				piano.wait();
-			}
-		} catch(InterruptedException interrupt) {
-			interrupt.printStackTrace();
-		}
-	}
+	// Network
+	private Socket socket;
+	private ObjectInputStream ois;
+	private ObjectOutputStream oos;
+	String keyData;
 	
+	// Network Instrument 
+	LetsGetItClient letsGetItClient = new LetsGetItClient();
+
+	public void getSocket() {
+		this.socket = letsGetItClient.setSocket();
+	}
+		
 	public void init() {
 		psheet = new JPanel();
 		psheet.setLayout(new GridLayout(1, 1));
@@ -61,7 +65,7 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 		instruPanel.add(instru);
 	}
 		
-		public void addGrid(GridBagLayout gbl, GridBagConstraints gbc, Component c, int gridx, int gridy, int gridwidth,
+	public void addGrid(GridBagLayout gbl, GridBagConstraints gbc, Component c, int gridx, int gridy, int gridwidth,
 			int gridheight, int weightx, int weighty) {
 		gbc.gridx = gridx;
 		gbc.gridy = gridy;
@@ -73,6 +77,15 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 		add(c);
 	}
 
+	public void musicPlayInit() throws IOException {
+		oos = new ObjectOutputStream(socket.getOutputStream());
+		ois = new ObjectInputStream(socket.getInputStream());
+		
+		RcvMusicThread rmt = new RcvMusicThread(this);
+		Thread musicThread = new Thread(rmt);
+		musicThread.start();
+	}
+	
 	public MusicPlayClient(int index, int instrumentNum) throws IOException {
 		// MenuBar
 		mb = new JMenuBar();
@@ -135,6 +148,7 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 		mmemo.addActionListener(this);
 		msave.addActionListener(this);
 		
+		musicPlayInit();
 		
 		// TODO 코드 piano뿐만 아니라 bass drum elec까지 넣어야해서 코드 정리 필요함.
 		// Key Event
@@ -142,9 +156,9 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 		buttonPanel.addKeyListener(
 			new KeyAdapter() {
 				public void keyPressed(KeyEvent e) {
-					if(e.getKeyCode() == e.VK_A) {
+					if(keyData.equals("q") || e.getKeyCode() == e.VK_A) {
+						musicBuffer("q");
 						InstrumentPiano piano = new InstrumentPiano(0);
-						
 						try {
 							piano.start();
 							synchronized(piano) {
@@ -153,35 +167,83 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 						} catch(InterruptedException interrupt) {
 							interrupt.printStackTrace();
 						}
-						trycatchpiano();
 					}
 					if(e.getKeyCode() == e.VK_S) {
 						InstrumentPiano piano = new InstrumentPiano(1);
-						trycatchpiano();
+						try {
+							piano.start();
+							synchronized(piano) {
+								piano.wait();
+							}
+						} catch(InterruptedException interrupt) {
+							interrupt.printStackTrace();
+						}
 					}
 					if(e.getKeyCode() == e.VK_D) {
 						InstrumentPiano piano = new InstrumentPiano(2);
-						trycatchpiano();
+						try {
+							piano.start();
+							synchronized(piano) {
+								piano.wait();
+							}
+						} catch(InterruptedException interrupt) {
+							interrupt.printStackTrace();
+						}
 					}
 					if(e.getKeyCode() == e.VK_F) {
 						InstrumentPiano piano = new InstrumentPiano(3);
-						trycatchpiano();
+						try {
+							piano.start();
+							synchronized(piano) {
+								piano.wait();
+							}
+						} catch(InterruptedException interrupt) {
+							interrupt.printStackTrace();
+						}
 					}
 					if(e.getKeyCode() == e.VK_G) {
 						InstrumentPiano piano = new InstrumentPiano(4);
-						trycatchpiano();
+						try {
+							piano.start();
+							synchronized(piano) {
+								piano.wait();
+							}
+						} catch(InterruptedException interrupt) {
+							interrupt.printStackTrace();
+						}
 					}
 					if(e.getKeyCode() == e.VK_H) {
 						InstrumentPiano piano = new InstrumentPiano(5);
-						trycatchpiano();
+						try {
+							piano.start();
+							synchronized(piano) {
+								piano.wait();
+							}
+						} catch(InterruptedException interrupt) {
+							interrupt.printStackTrace();
+						}
 					}
 					if(e.getKeyCode() == e.VK_J) {
 						InstrumentPiano piano = new InstrumentPiano(6);
-						trycatchpiano();
+						try {
+							piano.start();
+							synchronized(piano) {
+								piano.wait();
+							}
+						} catch(InterruptedException interrupt) {
+							interrupt.printStackTrace();
+						}
 					}
 					if(e.getKeyCode() == e.VK_K) {
 						InstrumentPiano piano = new InstrumentPiano(7);
-						trycatchpiano();
+						try {
+							piano.start();
+							synchronized(piano) {
+								piano.wait();
+							}
+						} catch(InterruptedException interrupt) {
+							interrupt.printStackTrace();
+						}
 					}
 				}
 			}
@@ -254,5 +316,26 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 				}
 			}
 		}
+	}
+	
+	public ObjectInputStream getOis() {
+		return ois;
+	}
+	
+	public void musicBuffer(String keyData) {
+		
+		this.keyData = keyData;
+		String stringKindsInstrument = String.valueOf(instrumentNum);
+		
+		// 키 데이터가 비어있지 않으면
+		if (!keyData.equals("")) {
+			try {
+				oos.writeObject(stringKindsInstrument + "#" + keyData);
+			} catch(IOException exception) {
+				exception.printStackTrace();
+			}
+			// 보낸 데이터 비워주기
+			this.keyData = null;
+		}	
 	}
 }
