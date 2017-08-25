@@ -33,7 +33,7 @@ public class LetsGetIt extends JFrame {
 	}
 	
 	private void Server() throws IOException {
-		letsGetItS = new LetsGetItServer(4500);
+		letsGetItS = new LetsGetItServer(5000);
 	}
 	
 	/*private void Client() throws IOException {

@@ -37,9 +37,6 @@ public class LetsGetItClient extends JFrame implements ActionListener {
 	private String id, ip;
 	private int port;
 	
-	public Socket setSocket() {
-		return socket;
-	}
 	
 	// TODO 서버가 지정한 악보 데이터로 바꿔야함.
 	public int getIndex() {
@@ -260,4 +257,6 @@ public class LetsGetItClient extends JFrame implements ActionListener {
 	public String getId() {
 		return id;
 	}
+
+	
 }
