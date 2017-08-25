@@ -52,7 +52,6 @@ public class Help extends JFrame implements ActionListener {
 		} else if (obj == sf.close) {
 			sf.dispose();
 		}
-
 	}
 
 	public static void main(String[] args) {

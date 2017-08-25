@@ -120,11 +120,9 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 		gbc.fill = GridBagConstraints.BOTH;
 		setLayout(gbl);
 
-		// buttonPanel 아직 panel에 안올렸음
 		addGrid(gbl, gbc, psheet, 0, 0, 1, 1, 1, 1);
 		addGrid(gbl, gbc, instruPanel, 0, 1, 1, 1, 1, 4);
 		add(buttonPanel);
-		
 		
 		pack();
 
@@ -146,6 +144,15 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 				public void keyPressed(KeyEvent e) {
 					if(e.getKeyCode() == e.VK_A) {
 						InstrumentPiano piano = new InstrumentPiano(0);
+						
+						try {
+							piano.start();
+							synchronized(piano) {
+								piano.wait();
+							}
+						} catch(InterruptedException interrupt) {
+							interrupt.printStackTrace();
+						}
 						trycatchpiano();
 					}
 					if(e.getKeyCode() == e.VK_S) {
@@ -184,7 +191,6 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 		for(int i = 0; i < 8; i++) {
 			DolemiBtn[i].addActionListener(this);
 		}
-
 	}	// 생성자
 	
 	public void actionPerformed(ActionEvent event) {
@@ -198,7 +204,7 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 			
 		}
 		if(obj == msave){
-			sheetsave = new sheetsave();
+	//		sheetsave = new sheetsave();
 		}
 		
 		// play instrument

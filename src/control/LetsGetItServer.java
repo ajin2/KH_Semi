@@ -1,47 +1,39 @@
 package control;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.*;
+import java.awt.event.*;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.logging.Logger;
 
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.ScrollPaneConstants;
+import javax.swing.*;
 
 public class LetsGetItServer extends JFrame implements ActionListener {
 	Insets insets = new Insets(0, 0, 0, 0);
 	MusicPlay mp;
 	SheetMusic sm;
 	int index;
-	JPanel p, p1, p2, p3, p4, p5, p6, p_;
+	JPanel p, p1, p_;
+	JPanel chatPanel, p3, writePanel, p5, readPanel; 					// Chatting Panel
 	JButton ok, send, b1, b2;
-	JButton pianoBtn, electricBtn, bassBtn, drumBtn; // Instrument Button
-	JTextArea ta;
-	JTextField tf;
+	JButton pianoBtn, electricBtn, bassBtn, drumBtn; 	// Instrument Button
+	JTextArea chatArea;
+	JTextField chatField;
 	JScrollPane jsp;
 	JLabel sheet_la, blank;
 	JComboBox<String> sheet;
 	String sheet_name[] = { "곰세마리", "나비야", "학교종이 땡땡땡", "버즈-겁쟁이", "메모" };
-	boolean checkOk = false; 		// 클라이언트에게 악보를 설정했다고 알려주는 변수.
-	
+	boolean checkOk = false; // 클라이언트에게 악보를 설정했다고 알려주는 변수.
+
+	// Network Module
+	private ArrayList <BroadCastThread> broadList;
+	private Socket socket;
+	private String id = "관리자";
+	ServerSocket serverSocket;
 
 	public int getIndex() {
 		index = sheet.getSelectedIndex();
@@ -60,11 +52,15 @@ public class LetsGetItServer extends JFrame implements ActionListener {
 		add(c);
 	}
 
-	public LetsGetItServer() {
-
+	public LetsGetItServer(int port) throws IOException {
+		// Network Module
+		broadList = new ArrayList <BroadCastThread> ();
+		serverSocket = new ServerSocket(port);
+		BroadCastThread broadCastThread = null;
+		boolean isStop = false;
+		
 		// GridBagLayout
 		// SheetName, Button
-		// JScrollPane jsc = new JScrollPane(ta);
 		p_ = new JPanel();
 		p_.setBackground(new Color(246, 246, 246));
 		blank = new JLabel();
@@ -84,57 +80,51 @@ public class LetsGetItServer extends JFrame implements ActionListener {
 		p1.add(sheet_la);
 		p1.add(sheet);
 		p1.add(ok);
-
 		p.add(p1);
 
-		// Chatting
-
-		p2 = new JPanel();
+		// Chatting Panel
+		chatPanel = new JPanel();
 		p3 = new JPanel();
-		p4 = new JPanel();
+		writePanel = new JPanel();
 		p5 = new JPanel();
-		p6 = new JPanel();
-
-		p2.setLayout(new BorderLayout());
+		readPanel = new JPanel();
+		chatPanel.setLayout(new BorderLayout());
 		p3.setLayout(new BorderLayout());
 		p3.setBackground(new Color(246, 246, 246));
-		p4.setLayout(new BorderLayout());
+		writePanel.setLayout(new BorderLayout());
 		p5.setLayout(new BorderLayout());
 		p5.setBackground(new Color(246, 246, 246));
-		p6.setLayout(new BorderLayout());
+		readPanel.setLayout(new BorderLayout());
 
 		Font font = new Font("Courier", Font.PLAIN, 23);
-
-		ta = new JTextArea("", 30, 20);
-		ta.setFont(font);
-
-		tf = new JTextField(20);
-		tf.setFont(font);
+		chatArea = new JTextArea("", 30, 20);
+		chatArea.setFont(font);
+		chatField = new JTextField(20);
+		chatField.setFont(font);
 
 		send = new JButton("입력");
 		b1 = new JButton("파일선택");
 		b2 = new JButton("파일전송");
-
-		p4.add("West", tf);
-		p4.add("East", send);
-		p2.add("South", p4);
-
 		p5.add("West", b1);
 		p5.add("East", b2);
 		p3.add("West", p5);
-		p2.add("North", p3);
+		chatPanel.add("North", p3);
 
-		ta.setLineWrap(true);
-		jsp = new JScrollPane(ta);
+		writePanel.add("West", chatField);
+		writePanel.add("East", send);
+		chatPanel.add("South", writePanel);
+		
+		chatArea.setLineWrap(true);
+		jsp = new JScrollPane(chatArea);
 		jsp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		jsp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
-		p6.add(jsp);
-		p2.add(p6);
+		readPanel.add(jsp);
+		chatPanel.add(readPanel);
 
 		// p3 > West > p5 > North > b1,b2
 		// p4 > South > tf,send
-		// p6 > Center > ta
+		// p6 > Center > chatArea
 		// ----------------------------------------------------------
 
 		pianoBtn = new JButton("Piano");
@@ -153,56 +143,75 @@ public class LetsGetItServer extends JFrame implements ActionListener {
 		addGrid(gbl, gbc, electricBtn, 2, 1, 2, 2, 1, 2);
 		addGrid(gbl, gbc, bassBtn, 0, 4, 2, 2, 1, 2);
 		addGrid(gbl, gbc, drumBtn, 2, 4, 2, 2, 1, 2);
-		addGrid(gbl, gbc, p2, 5, 1, 1, 5, 0.5, 5);
+		addGrid(gbl, gbc, chatPanel, 5, 1, 1, 5, 0.5, 5);
 
 		pack();
 
 		setVisible(true);
 		setBounds(115, 50, 1670, 900);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		// key event
 
-		tf.addKeyListener(new KeyAdapter() {
+		// key event
+		chatField.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
 				switch (e.getKeyCode()) {
 				case KeyEvent.VK_ESCAPE:
-					tf.setText("");
+					chatField.setText("");
 					break;
 				}
-
 			}
 		});
 
 		ok.addActionListener(this);
-		tf.addActionListener(this);
+		chatField.addActionListener(this);
 		b1.addActionListener(this);
 		b2.addActionListener(this);
 		send.addActionListener(this);
-
+		
+		// Newtwork Module
+		while(!isStop) {
+			System.out.println("Server read...");
+			socket = serverSocket.accept();
+			broadCastThread = new BroadCastThread(this);
+			broadList.add(broadCastThread);
+			Thread t = new Thread(broadCastThread);
+			t.start();
+		}
 	}
 
 	// action Event
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
-		String msg = tf.getText();
+		String msg = chatField.getText();
 
-		
 		if (obj == ok) {
 			try {
 				mp = new MusicPlay(getIndex()); // 踰꾪듉 �겢由� �떆 MusicPlay �떎�뻾
 			} catch (IOException ee) {
 				ee.printStackTrace();
 			}
-			
+
 			// 클라이언트에게 버튼이 눌렸는지 알려주는 boolean값
 			checkOk = true;
 		}
-		if (obj == send || obj == tf) {
-			String str = tf.getText();
-			if (!str.equals("")) {
-				ta.append(" >> " + str + "\n");
-				tf.setText("");
-			}
-		}
+	}
+	
+	public ArrayList< BroadCastThread > getList() {
+		return broadList;
+	}
+	public Socket getSocket() {
+		return socket;
+	}
+	
+	public void exit() {
+		System.exit(0);
+	}
+	
+	public JTextArea getChatArea() {
+		return chatArea;
+	}
+	
+	public String getId() {
+		return id;
 	}
 }

@@ -18,7 +18,6 @@ public class Instrument extends Thread {
 	public File instrumentShow (int index) throws IOException {
 		this.index = index;
 		File f = new File("");
-		
 
 		if (index == 0) {
 			f = new File("img/piano.png");
@@ -29,7 +28,8 @@ public class Instrument extends Thread {
 		} else if (index == 3) {
 			f = new File("img/drum.png");
 		}
-			return f;		
+		
+		return f;		
 	}
 
 }
