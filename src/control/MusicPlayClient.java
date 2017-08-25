@@ -42,13 +42,11 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 	private ObjectInputStream ois;
 	private ObjectOutputStream oos;
 	String keyData;
+	private int port;
+	private String ip;
 	
 	// Network Instrument 
 	LetsGetItClient letsGetItClient = new LetsGetItClient();
-
-	public void getSocket() {
-		this.socket = letsGetItClient.setSocket();
-	}
 		
 	public void init() {
 		psheet = new JPanel();
@@ -77,14 +75,15 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 		add(c);
 	}
 
-	public void musicPlayInit() throws IOException {
+	/*public void musicPlayInit() throws IOException {
+		socket = new Socket(ip, port);
 		oos = new ObjectOutputStream(socket.getOutputStream());
 		ois = new ObjectInputStream(socket.getInputStream());
 		
 		RcvMusicThread rmt = new RcvMusicThread(this);
 		Thread musicThread = new Thread(rmt);
 		musicThread.start();
-	}
+	}*/
 	
 	public MusicPlayClient(int index, int instrumentNum) throws IOException {
 		// MenuBar
@@ -148,7 +147,6 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 		mmemo.addActionListener(this);
 		msave.addActionListener(this);
 		
-		musicPlayInit();
 		
 		// TODO 코드 piano뿐만 아니라 bass drum elec까지 넣어야해서 코드 정리 필요함.
 		// Key Event
@@ -156,8 +154,8 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 		buttonPanel.addKeyListener(
 			new KeyAdapter() {
 				public void keyPressed(KeyEvent e) {
-					if(keyData.equals("q") || e.getKeyCode() == e.VK_A) {
-						musicBuffer("q");
+					if(e.getKeyCode() == e.VK_A) {
+						
 						InstrumentPiano piano = new InstrumentPiano(0);
 						try {
 							piano.start();
