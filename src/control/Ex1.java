@@ -22,10 +22,10 @@ class Ex1 extends JFrame implements ActionListener {
 		la = new JLabel(" 채팅닉네임 : ");
 		tf = new JTextField(15);
 		loginButton = new JButton("Login");
-		Hyeok.add(loginButton);
+		
 		Hyeok.add(la);
 		Hyeok.add(tf);
-		
+		Hyeok.add(loginButton);
 		setBounds(500, 50, 250, 250);
 		setVisible(true);
 		add(Hyeok);
