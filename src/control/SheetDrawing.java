@@ -192,14 +192,14 @@ public class SheetDrawing implements ActionListener {
 		plain.addActionListener(this);
 	}
 
-	/*public static void main(String... args) {
+	public static void main(String... args) {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
 				new SheetDrawing().displayGUI();
 			}
 		});
-	}*/
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -229,3 +229,4 @@ public class SheetDrawing implements ActionListener {
 		}
 	}
 }
+
