@@ -37,6 +37,10 @@ public class LetsGetItClient extends JFrame implements ActionListener {
 	private String id, ip;
 	private int port;
 	
+	public Socket setSocket() {
+		return socket;
+	}
+	
 	// TODO 서버가 지정한 악보 데이터로 바꿔야함.
 	public int getIndex() {
 		index = sheet.getSelectedIndex();
@@ -57,6 +61,7 @@ public class LetsGetItClient extends JFrame implements ActionListener {
 		add(c);
 	}
 	
+	public LetsGetItClient() {	}
 	public LetsGetItClient(String ip, int port, String id) throws IOException, UnknownHostException {
 		// Network Module
 		this.id = id;
@@ -236,8 +241,8 @@ public class LetsGetItClient extends JFrame implements ActionListener {
 		ois = new ObjectInputStream(socket.getInputStream());
 		
 		RcvChatThread rct = new RcvChatThread(this);
-		Thread t = new Thread(rct);
-		t. start();
+		Thread chatThread = new Thread(rct);
+		chatThread.start();
 	}
 	
 	public void exit() {
