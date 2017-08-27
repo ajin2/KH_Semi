@@ -85,7 +85,7 @@ public class LetsGetItClient extends JFrame implements ActionListener {
 		p1.add(sheet);
 		p1.add(ok);
 
-		p.add(p1);
+		//p.add(p1);
 
 		// Chatting Panel
 		chatPanel = new JPanel();
