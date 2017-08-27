@@ -3,6 +3,7 @@ package control;
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
@@ -133,8 +134,8 @@ public class SheetDrawing implements ActionListener {
 			e.printStackTrace();
 		}
 	}
-
-	private void displayGUI() {
+	
+	public void displayGUI() {
 		JFrame frame = new JFrame("Painting on Sheet");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -178,7 +179,8 @@ public class SheetDrawing implements ActionListener {
 
 		frame.add(contentPane);
 		frame.pack();
-		frame.setLocationByPlatform(true);
+		frame.setBounds(600,200,600,500);
+		frame.setAlwaysOnTop(true);
 		frame.setVisible(true);
 
 		ba.addActionListener(this);
@@ -192,13 +194,8 @@ public class SheetDrawing implements ActionListener {
 		plain.addActionListener(this);
 	}
 
-	public static void main(String... args) {
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				new SheetDrawing().displayGUI();
-			}
-		});
+	public static void main(String[] args) {
+		new SheetDrawing().displayGUI();
 	}
 
 	@Override

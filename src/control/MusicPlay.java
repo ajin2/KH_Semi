@@ -58,20 +58,12 @@ public class MusicPlay extends JFrame {
 		img = ImageIO.read(sm.showSheet(index));
 		init();
 
-		btn = new JButton("�Ǳ�");
-
-		// ----------------------------------------------- 악보
-
-		btn = new JButton("악기");
-		// ----------------------------------------------- 악기구현
-
 		GridBagLayout gbl = new GridBagLayout();
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.fill = GridBagConstraints.BOTH;
 		setLayout(gbl);
 
 		addGrid(gbl, gbc, psheet, 0, 0, 1, 1, 1, 1);
-		addGrid(gbl, gbc, btn, 0, 1, 1, 1, 1, 4);
 
 		pack();
 

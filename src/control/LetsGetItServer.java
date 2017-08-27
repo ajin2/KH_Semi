@@ -1,16 +1,37 @@
 package control;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.logging.Logger;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 public class LetsGetItServer extends JFrame implements ActionListener {
 	Insets insets = new Insets(0, 0, 0, 0);
@@ -29,12 +50,23 @@ public class LetsGetItServer extends JFrame implements ActionListener {
 	String sheet_name[] = { "곰세마리", "나비야", "학교종이 땡땡땡", "버즈-겁쟁이", "메모" };
 	boolean checkOk = false; // 클라이언트에게 악보를 설정했다고 알려주는 변수.
 
+	JMenuBar mb;
+	JMenu mhelp, mselect;
+	JTextArea ta;
+	JMenuItem mhelpview;
+	Dimension dm;
+
+	HelpSub hs;
+
 	// Network Module
-	private ArrayList <BroadCastThread> broadList;
+	private ArrayList <SndChatThread> sendList;
+	private ArrayList <SndMusicThread> musicList;
+	private ArrayList<SndDrawingThread> drawingList;
 	private Socket socket;
 	private String id = "관리자";
 	ServerSocket serverSocket;
-
+	private ObjectOutputStream oos;
+	
 	public int getIndex() {
 		index = sheet.getSelectedIndex();
 		return index;
@@ -54,9 +86,14 @@ public class LetsGetItServer extends JFrame implements ActionListener {
 
 	public LetsGetItServer(int port) throws IOException {
 		// Network Module
-		broadList = new ArrayList <BroadCastThread> ();
+		sendList = new ArrayList <SndChatThread> ();
+		musicList = new ArrayList <SndMusicThread> ();
+		drawingList = new ArrayList<SndDrawingThread>();
 		serverSocket = new ServerSocket(port);
-		BroadCastThread broadCastThread = null;
+		
+		SndChatThread sndChatThread = null;
+		SndMusicThread sndMusicThread = null;
+		SndDrawingThread sndDrawingThread = null;
 		boolean isStop = false;
 		
 		// GridBagLayout
@@ -147,6 +184,14 @@ public class LetsGetItServer extends JFrame implements ActionListener {
 
 		pack();
 
+		mb = new JMenuBar();
+		setJMenuBar(mb);
+		mhelp = new JMenu("도움말");
+		mb.add(mhelp);
+		mhelpview = new JMenuItem("도움말 보기");
+		mhelp.add(mhelpview);
+		hs = new HelpSub();	      
+
 		setVisible(true);
 		setBounds(115, 50, 1670, 900);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -161,21 +206,41 @@ public class LetsGetItServer extends JFrame implements ActionListener {
 				}
 			}
 		});
-
+		
+		hs.close.addActionListener(this);
 		ok.addActionListener(this);
 		chatField.addActionListener(this);
 		b1.addActionListener(this);
 		b2.addActionListener(this);
 		send.addActionListener(this);
+		mhelp.addActionListener(this);
+		mhelpview.addActionListener(this);
+
 		
 		// Newtwork Module
 		while(!isStop) {
 			System.out.println("Server read...");
 			socket = serverSocket.accept();
-			broadCastThread = new BroadCastThread(this);
-			broadList.add(broadCastThread);
-			Thread t = new Thread(broadCastThread);
-			t.start();
+			
+//			oos = new ObjectOutputStream(socket.getOutputStream());
+			
+			sndChatThread = new SndChatThread(this);
+//			sndMusicThread = new SndMusicThread(this);
+			
+			sendList.add(sndChatThread);
+//			musicList.add(sndMusicThread);
+			
+			Thread t1 = new Thread(sndChatThread);
+//			Thread t2 = new Thread(sndMusicThread);
+			
+			t1.start();
+//			t2.start();
+			
+			sndDrawingThread = new SndDrawingThread(this);
+			drawingList.add(sndDrawingThread);
+			Thread t3 = new Thread(sndDrawingThread);
+			t3.start();
+
 		}
 	}
 
@@ -183,6 +248,13 @@ public class LetsGetItServer extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
 		String msg = chatField.getText();
+
+		if (obj == mhelpview) {
+			hs.setSize(500, 500);
+			hs.setVisible(true);
+		} else if (obj == hs.close) {
+			hs.dispose();
+		}
 
 		if (obj == ok) {
 			try {
@@ -196,9 +268,18 @@ public class LetsGetItServer extends JFrame implements ActionListener {
 		}
 	}
 	
-	public ArrayList< BroadCastThread > getList() {
-		return broadList;
+	public ArrayList< SndChatThread > getChatList() {
+		return sendList;
 	}
+	
+	public ArrayList <SndDrawingThread> getDrawingList(){
+		return drawingList;
+	}
+	
+	public ArrayList< SndMusicThread > getMusickList() {
+		return musicList;
+	}
+	
 	public Socket getSocket() {
 		return socket;
 	}

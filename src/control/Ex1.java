@@ -21,11 +21,12 @@ class Ex1 extends JFrame implements ActionListener {
 		Hyeok = new JPanel();
 		la = new JLabel(" 채팅닉네임 : ");
 		tf = new JTextField(15);
+		tf.setText("aa");
 		loginButton = new JButton("Login");
-		Hyeok.add(loginButton);
+		
 		Hyeok.add(la);
 		Hyeok.add(tf);
-		
+		Hyeok.add(loginButton);
 		setBounds(500, 50, 250, 250);
 		setVisible(true);
 		add(Hyeok);
@@ -42,7 +43,7 @@ class Ex1 extends JFrame implements ActionListener {
 			
 			LetsGetItClient letsGetItC;
 			try {
-				letsGetItC = new LetsGetItClient("localhost", 4500, getStr());
+				letsGetItC = new LetsGetItClient("localhost", 5000, getStr());
 				letsGetItC.init();
 			} catch (IOException e1) {
 				e1.printStackTrace();
