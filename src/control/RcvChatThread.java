@@ -1,10 +1,10 @@
 package control;
 
-import java.io.IOException;
+import java.io.*;
 
 public class RcvChatThread extends Thread {
 	private LetsGetItClient client;
-
+	
 	public RcvChatThread(LetsGetItClient clinet) {
 		this.client = clinet;
 	}

@@ -37,14 +37,6 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 	JPanel instruPanel, buttonPanel;
 	JButton DolemiBtn[];
 	
-	// Network
-	private Socket socket;
-	private ObjectInputStream ois;
-	private ObjectOutputStream oos;
-	String keyData;
-	private int port;
-	private String ip;
-	
 	// Network Instrument 
 	LetsGetItClient letsGetItClient = new LetsGetItClient();
 		
@@ -74,16 +66,6 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 		gbl.setConstraints(c, gbc);
 		add(c);
 	}
-
-	/*public void musicPlayInit() throws IOException {
-		socket = new Socket(ip, port);
-		oos = new ObjectOutputStream(socket.getOutputStream());
-		ois = new ObjectInputStream(socket.getInputStream());
-		
-		RcvMusicThread rmt = new RcvMusicThread(this);
-		Thread musicThread = new Thread(rmt);
-		musicThread.start();
-	}*/
 	
 	public MusicPlayClient(int index, int instrumentNum) throws IOException {
 		// MenuBar
@@ -118,10 +100,10 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 		DolemiBtn[1] = new JButton("레");
 		DolemiBtn[2] = new JButton("미");
 		DolemiBtn[3] = new JButton("파");
-		DolemiBtn[4] = new JButton("도");
-		DolemiBtn[5] = new JButton("레");
-		DolemiBtn[6] = new JButton("미");
-		DolemiBtn[7] = new JButton("파");
+		DolemiBtn[4] = new JButton("솔");
+		DolemiBtn[5] = new JButton("라");
+		DolemiBtn[6] = new JButton("시");
+		DolemiBtn[7] = new JButton("도");
 		for(int i = 0; i < 8; i++) {
 			buttonPanel.add(DolemiBtn[i]);
 		}
@@ -278,9 +260,13 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 						synchronized(piano) {
 							piano.wait();
 						}
+						letsGetItClient.getOos().writeObject(instrument + "#" + i);
 					} catch(InterruptedException interrupt) {
 						interrupt.printStackTrace();
+					} catch(IOException exception) {
+						exception.printStackTrace();
 					}
+					
 				} else if(instrumentNum == 1) {
 					InstrumentElectric electric = new InstrumentElectric(i);
 					try {
@@ -316,24 +302,4 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 		}
 	}
 	
-	public ObjectInputStream getOis() {
-		return ois;
-	}
-	
-	public void musicBuffer(String keyData) {
-		
-		this.keyData = keyData;
-		String stringKindsInstrument = String.valueOf(instrumentNum);
-		
-		// 키 데이터가 비어있지 않으면
-		if (!keyData.equals("")) {
-			try {
-				oos.writeObject(stringKindsInstrument + "#" + keyData);
-			} catch(IOException exception) {
-				exception.printStackTrace();
-			}
-			// 보낸 데이터 비워주기
-			this.keyData = null;
-		}	
-	}
 }

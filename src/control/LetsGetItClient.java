@@ -24,7 +24,16 @@ public class LetsGetItClient extends JFrame implements ActionListener {
 	JComboBox<String> sheet;
 	String sheet_name[] = { "곰세마리", "나비야", "학교종이 땡땡땡", "버즈-겁쟁이", "메모" };
 	MusicPlayClient musicPlayClient;
+	private int thisUserSelected;
 	
+	JMenuBar mb;
+	JMenu mhelp, mselect;
+	JTextArea ta;
+	JMenuItem mhelpview;
+	Dimension dm;
+	
+	HelpSub hs;
+
 	/* TODO Client가 악기 선택했을 때마다 cnt++
 	 *  (cnt = client의 사람인원수)가 되었을때
 	 *  MusicPlayClient Window가 활동되도록 수정해야함.
@@ -36,7 +45,6 @@ public class LetsGetItClient extends JFrame implements ActionListener {
 	private ObjectOutputStream oos;
 	private String id, ip;
 	private int port;
-	
 	
 	// TODO 서버가 지정한 악보 데이터로 바꿔야함.
 	public int getIndex() {
@@ -148,6 +156,15 @@ public class LetsGetItClient extends JFrame implements ActionListener {
 		addGrid(gbl, gbc, chatPanel, 5, 1, 1, 5, 0.5, 5);
 
 		pack();
+		
+		mb = new JMenuBar();
+		setJMenuBar(mb);
+		mhelp = new JMenu("도움말");
+		mb.add(mhelp);
+		mhelpview = new JMenuItem("도움말 보기");
+		mhelp.add(mhelpview);
+		hs = new HelpSub();
+		hs.close.addActionListener(this);
 
 		setVisible(true);
 		setBounds(115, 50, 1670, 900);
@@ -173,6 +190,9 @@ public class LetsGetItClient extends JFrame implements ActionListener {
 		electricBtn.addActionListener(this);		// Electric Button
 		bassBtn.addActionListener(this);			// Bass Button
 		drumBtn.addActionListener(this);			// Drum Button
+		mhelp.addActionListener(this);
+		mhelpview.addActionListener(this);
+
 	}
 
 	// action Event
@@ -180,14 +200,18 @@ public class LetsGetItClient extends JFrame implements ActionListener {
 		Object obj = e.getSource();
 		String msg = chatField.getText();
 
-		boolean onlyTestBooleanValue = true;
+		if (obj == mhelpview) {
+			hs.setSize(500, 500);
+			hs.setVisible(true);
+		} else if (obj == hs.close) {
+			hs.dispose();
+		}
 		
 		if (obj == chatField || obj == send) {
 			String str = chatField.getText();
 			if (!str.equals("")) {
 				try {
 					oos.writeObject(id + " >> "  + msg);
-					//chatArea.append(" >> " + str + "\n");
 				} catch(IOException exception) {
 					exception.printStackTrace();
 				}
@@ -195,7 +219,8 @@ public class LetsGetItClient extends JFrame implements ActionListener {
 			}
 		}
 		
-		// Server 없이 Client Test용. 서버 통신 되면 onlyTestBooleanValue 다 지우면 됌  
+		// Server 없이 Client Test용. 서버 통신 되면 onlyTestBooleanValue 다 지우면 됌
+		boolean onlyTestBooleanValue = true;
 		if (obj == ok) {
 			onlyTestBooleanValue = true;
 		}
@@ -207,6 +232,7 @@ public class LetsGetItClient extends JFrame implements ActionListener {
 	         }catch(IOException ee){
 	            ee.printStackTrace();
 	         }
+			setThisUserSelected(0);
 		}
 		if (obj == electricBtn && onlyTestBooleanValue == true) {
 			try{
@@ -214,6 +240,7 @@ public class LetsGetItClient extends JFrame implements ActionListener {
 	         }catch(IOException ee){
 	            ee.printStackTrace();
 	         }
+			setThisUserSelected(1);
 		} 
 		if (obj == bassBtn &&  onlyTestBooleanValue == true) {
 			try{
@@ -221,6 +248,7 @@ public class LetsGetItClient extends JFrame implements ActionListener {
 	         }catch(IOException ee){
 	            ee.printStackTrace();
 	         }
+			setThisUserSelected(2);
 		}
 		if (obj == drumBtn &&  onlyTestBooleanValue == true) {
 			try{
@@ -228,6 +256,7 @@ public class LetsGetItClient extends JFrame implements ActionListener {
 	         }catch(IOException ee){
 	            ee.printStackTrace();
 	         }
+			setThisUserSelected(3);
 		}
 	}
 	
@@ -238,7 +267,12 @@ public class LetsGetItClient extends JFrame implements ActionListener {
 		ois = new ObjectInputStream(socket.getInputStream());
 		
 		RcvChatThread rct = new RcvChatThread(this);
+		RcvMusicThread rmt = new RcvMusicThread(this);
+		
 		Thread chatThread = new Thread(rct);
+		Thread musicThread = new Thread(rmt);
+		
+		musicThread.start();
 		chatThread.start();
 	}
 	
@@ -250,6 +284,10 @@ public class LetsGetItClient extends JFrame implements ActionListener {
 		return ois;
 	}
 	
+	public ObjectOutputStream getOos() {
+		return oos;
+	}
+	
 	public JTextArea getChatArea() {
 		return chatArea;
 	}
@@ -257,6 +295,15 @@ public class LetsGetItClient extends JFrame implements ActionListener {
 	public String getId() {
 		return id;
 	}
+	
+	public void setThisUserSelected(int thisUserSelected) {
+		this.thisUserSelected = thisUserSelected;
+	}
+	
+	public int getThisUserSelected() {
+		return thisUserSelected;
+	}
+	
 
 	
 }
