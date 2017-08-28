@@ -38,8 +38,9 @@ public class LetsGetItServer extends JFrame implements ActionListener {
 	HelpSub hs;
 
 	// Network Module
-	private ArrayList <SndChatThread> sendList;
-	private ArrayList <SndMusicThread> musicList;
+	private ArrayList <SndThreadControl> threadList;
+//	private ArrayList <SndChatThread> sendList;
+//	private ArrayList <SndMusicThread> musicList;
 	private Socket socket;
 	private String id = "관리자";
 	ServerSocket serverSocket;
@@ -63,11 +64,14 @@ public class LetsGetItServer extends JFrame implements ActionListener {
 
 	public LetsGetItServer(int port) throws IOException {
 		// Network Module
-		sendList = new ArrayList <SndChatThread> ();
-		musicList = new ArrayList <SndMusicThread> ();
+		threadList = new ArrayList<SndThreadControl>();
+//		sendList = new ArrayList <SndChatThread> ();
+//		musicList = new ArrayList <SndMusicThread> ();
 		serverSocket = new ServerSocket(port);
-		SndChatThread sndChatThread = null;
-		SndMusicThread sndMusicThread = null;
+		SndThreadControl threadControl = null;
+//		SndChatThread sndChatThread = null;
+//		SndMusicThread sndMusicThread = null;
+		
 		boolean isStop = false;
 		
 		// GridBagLayout
@@ -189,31 +193,34 @@ public class LetsGetItServer extends JFrame implements ActionListener {
 		send.addActionListener(this);
 		mhelp.addActionListener(this);
 		mhelpview.addActionListener(this);
-
 		
 		// Newtwork Module
 		while(!isStop) {
 			System.out.println("Server read...");
 			socket = serverSocket.accept();
 			
-			sndChatThread = new SndChatThread(this);
-			sndMusicThread = new SndMusicThread(this);
+			threadControl = new SndThreadControl(this);
+//			sndChatThread = new SndChatThread(this);
+//			sndMusicThread = new SndMusicThread(this);
 			
-			sendList.add(sndChatThread);
-			musicList.add(sndMusicThread);
+			threadList.add(threadControl);
+//			sendList.add(sndChatThread);
+//			musicList.add(sndMusicThread);
 			
-			Thread t1 = new Thread(sndChatThread);
-			Thread t2 = new Thread(sndMusicThread);
+			Thread t3 = new Thread(threadControl);
+//			Thread t1 = new Thread(sndChatThread);
+//			Thread t2 = new Thread(sndMusicThread);
 			
-			t1.start();
-			t2.start();
+			t3.start();
+//			t1.start();
+//			t2.start();
 		}
 	}
 
 	// action Event
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
-		String msg = chatField.getText();
+		//String msg = chatField.getText();
 
 		if (obj == mhelpview) {
 			hs.setSize(500, 500);
@@ -233,15 +240,19 @@ public class LetsGetItServer extends JFrame implements ActionListener {
 			checkOk = true;
 		}
 	}
+
+	public ArrayList< SndThreadControl > getThreadList() {
+		return threadList;
+	}
 	
-	public ArrayList< SndChatThread > getChatList() {
+/*	public ArrayList< SndChatThread > getChatList() {
 		return sendList;
 	}
 	
 	public ArrayList< SndMusicThread > getMusickList() {
 		return musicList;
 	}
-	
+*/	
 	public Socket getSocket() {
 		return socket;
 	}

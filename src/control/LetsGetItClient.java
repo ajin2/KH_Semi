@@ -211,7 +211,8 @@ public class LetsGetItClient extends JFrame implements ActionListener {
 			String str = chatField.getText();
 			if (!str.equals("")) {
 				try {
-					oos.writeObject(id + " >> "  + msg);
+					oos.writeObject("chat" + "#" + id + "#"  + msg);
+					chatArea.append(id + " >> " + msg + "\n");
 				} catch(IOException exception) {
 					exception.printStackTrace();
 				}
@@ -266,14 +267,21 @@ public class LetsGetItClient extends JFrame implements ActionListener {
 		oos = new ObjectOutputStream(socket.getOutputStream());
 		ois = new ObjectInputStream(socket.getInputStream());
 		
-		RcvChatThread rct = new RcvChatThread(this);
-		RcvMusicThread rmt = new RcvMusicThread(this);
+		/* Network
+			Chat : 1 # id # message
+			Music : 2 # instrument # sound key
+		*/
+//		RcvChatThread rct = new RcvChatThread(this);
+//		RcvMusicThread rmt = new RcvMusicThread(this);
+		RcvThreadControl rtc = new RcvThreadControl(this);
 		
-		Thread chatThread = new Thread(rct);
-		Thread musicThread = new Thread(rmt);
+//		Thread chatThread = new Thread(rct);
+//		Thread musicThread = new Thread(rmt);
+		Thread threadControl = new Thread(rtc);
 		
-		musicThread.start();
-		chatThread.start();
+//		chatThread.start();
+//		musicThread.start();
+		threadControl.start();
 	}
 	
 	public void exit() {
