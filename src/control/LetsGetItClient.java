@@ -12,7 +12,7 @@ public class LetsGetItClient extends JFrame implements ActionListener {
 	Insets insets = new Insets(0, 0, 0, 0);
 	MusicPlay mp;
 	SheetMusic sm;
-	int index;
+	static int index;
 	JPanel p, p1, p_;
 	JPanel chatPanel, p3, writePanel, p5, readPanel;
 	JButton ok, send, b1, b2;
@@ -47,9 +47,13 @@ public class LetsGetItClient extends JFrame implements ActionListener {
 	private int port;
 	
 	// TODO 서버가 지정한 악보 데이터로 바꿔야함.
-	public int getIndex() {
-		index = sheet.getSelectedIndex();
+	public static int getIndex() {
+//		index = sheet.getSelectedIndex();
 		return index;
+	}
+	
+	public void setIndex(int index){
+		this.index = index;
 	}
 	
 	public String getID(){ return id; }
@@ -268,15 +272,12 @@ public class LetsGetItClient extends JFrame implements ActionListener {
 		
 		RcvChatThread rct = new RcvChatThread(this);
 //		RcvMusicThread rmt = new RcvMusicThread(this);
-//		RcvDrawingThread rdt = new RcvDrawingThread(this);
 		
 		Thread chatThread = new Thread(rct);
 //		Thread musicThread = new Thread(rmt);
-//		Thread drawingThread = new Thread(rdt);
 		
 //		musicThread.start();
 		chatThread.start();
-//		drawingThread.start();
 	}
 	
 	public void exit() {

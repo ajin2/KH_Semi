@@ -13,6 +13,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -24,9 +25,8 @@ import javax.swing.SwingUtilities;
 
 public class SheetDrawing implements ActionListener {
 
-	private static final String FILE_PATH = "img/곰세마리.jpg";
-
-	BufferedImage bImage;
+	SndChatThread sndChatThread = null;
+	BufferedImage bImage, AcImage;
 	ImageIcon image;
 	JLabel imageLabel;
 	JFrame frame;
@@ -40,6 +40,27 @@ public class SheetDrawing implements ActionListener {
 	int l, x, y, ox, oy, width = 2;
 	Graphics g1;
 	Graphics2D g2;
+	public boolean paint = false;
+	
+	public boolean getPaint(){
+		return paint;
+	}
+	
+	public int getXC(){
+		return xClicked;
+	}
+	
+	public int getYC(){
+		return yClicked;
+	}
+	
+	public int getXD(){
+		return xDragged;
+	}
+	
+	public int getYD(){
+		return yDragged;
+	}
 
 	public void setC(Color ch) {
 		this.ch = ch;
@@ -66,18 +87,17 @@ public class SheetDrawing implements ActionListener {
 		g2.fillRect(0, 0, 600, 600);
 		g2.dispose();
 		try {
-			bImage = ImageIO.read(new File(FILE_PATH));
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			bImage = ImageIO.read(f);
+			image = new ImageIcon(bImage);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		image = new ImageIcon(bImage);
 		imageLabel.setIcon(new ImageIcon(bImage));
 	}
 
-	private MouseAdapter mouseListener = new MouseAdapter() {
-		private boolean paint = false;
-
+	public MouseAdapter mouseListener = new MouseAdapter() {
+		
 		@Override
 		public void mousePressed(MouseEvent me) {
 			xClicked = me.getX();
@@ -115,20 +135,27 @@ public class SheetDrawing implements ActionListener {
 				g2.setColor(getC());
 				width = getW();
 				g2.setStroke(new BasicStroke(width));
-				g2.drawLine(xClicked, yClicked, xDragged, yDragged);
+				g2.drawLine(xClicked, yClicked, xDragged, yDragged); 
 
 				g2.dispose();
 				imageLabel.setIcon(new ImageIcon(bImage));
 
 				me.getComponent().invalidate();
 				me.getComponent().repaint();
+				
+				/*try {
+					sndChatThread.broadCasting("xypoint >> " + xClicked + yClicked + xDragged + yDragged);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}*/
 			}
 		}
 	};
 
-	public SheetDrawing() {
+	public SheetDrawing(File f) {
 		try {
-			bImage = ImageIO.read(new File(FILE_PATH));
+			bImage = ImageIO.read(f);
 			image = new ImageIcon(bImage);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -137,7 +164,6 @@ public class SheetDrawing implements ActionListener {
 	
 	public void displayGUI() {
 		JFrame frame = new JFrame("Painting on Sheet");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JPanel contentPane = new JPanel();
 		contentPane.setLayout(new BorderLayout());
@@ -194,9 +220,9 @@ public class SheetDrawing implements ActionListener {
 		plain.addActionListener(this);
 	}
 
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		new SheetDrawing().displayGUI();
-	}
+	}*/
 
 	@Override
 	public void actionPerformed(ActionEvent e) {

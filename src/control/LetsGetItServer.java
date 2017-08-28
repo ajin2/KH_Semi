@@ -13,8 +13,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.ServerSocket;
@@ -37,7 +37,7 @@ public class LetsGetItServer extends JFrame implements ActionListener {
 	Insets insets = new Insets(0, 0, 0, 0);
 	MusicPlay mp;
 	SheetMusic sm;
-	int index;
+	static int index;
 	JPanel p, p1, p_;
 	JPanel chatPanel, p3, writePanel, p5, readPanel; 					// Chatting Panel
 	JButton ok, send, b1, b2;
@@ -46,7 +46,7 @@ public class LetsGetItServer extends JFrame implements ActionListener {
 	JTextField chatField;
 	JScrollPane jsp;
 	JLabel sheet_la, blank;
-	JComboBox<String> sheet;
+	static JComboBox<String> sheet;
 	String sheet_name[] = { "곰세마리", "나비야", "학교종이 땡땡땡", "버즈-겁쟁이", "메모" };
 	boolean checkOk = false; // 클라이언트에게 악보를 설정했다고 알려주는 변수.
 
@@ -61,15 +61,14 @@ public class LetsGetItServer extends JFrame implements ActionListener {
 	// Network Module
 	private ArrayList <SndChatThread> sendList;
 	private ArrayList <SndMusicThread> musicList;
-	private ArrayList<SndDrawingThread> drawingList;
 	private Socket socket;
 	private String id = "관리자";
 	ServerSocket serverSocket;
-	private ObjectOutputStream oos;
 	
-	public int getIndex() {
-		index = sheet.getSelectedIndex();
-		return index;
+	SndChatThread sndChatThread = null;
+	
+	public static int getIndex() {
+		return index = sheet.getSelectedIndex();
 	}
 
 	public void addGrid(GridBagLayout gbl, GridBagConstraints gbc, Component c, int gridx, int gridy, int gridwidth,
@@ -87,13 +86,11 @@ public class LetsGetItServer extends JFrame implements ActionListener {
 	public LetsGetItServer(int port) throws IOException {
 		// Network Module
 		sendList = new ArrayList <SndChatThread> ();
-		musicList = new ArrayList <SndMusicThread> ();
-		drawingList = new ArrayList<SndDrawingThread>();
+//		musicList = new ArrayList <SndMusicThread> ();
 		serverSocket = new ServerSocket(port);
 		
-		SndChatThread sndChatThread = null;
-		SndMusicThread sndMusicThread = null;
-		SndDrawingThread sndDrawingThread = null;
+		
+//		SndMusicThread sndMusicThread = null;
 		boolean isStop = false;
 		
 		// GridBagLayout
@@ -193,7 +190,8 @@ public class LetsGetItServer extends JFrame implements ActionListener {
 		hs = new HelpSub();	      
 
 		setVisible(true);
-		setBounds(115, 50, 1670, 900);
+//		setBounds(115, 50, 1670, 900);
+		setBounds(115, 100, 700, 700);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		// key event
@@ -223,6 +221,11 @@ public class LetsGetItServer extends JFrame implements ActionListener {
 			socket = serverSocket.accept();
 			
 //			oos = new ObjectOutputStream(socket.getOutputStream());
+			// *JSB*
+			OutputStream out = socket.getOutputStream();
+            DataOutputStream dos = new DataOutputStream(out); // 기본형 단위로 처리하는 보조스트림
+//            oos = new ObjectOutputStream(socket.getOutputStream());
+            // *JSB*
 			
 			sndChatThread = new SndChatThread(this);
 //			sndMusicThread = new SndMusicThread(this);
@@ -236,10 +239,10 @@ public class LetsGetItServer extends JFrame implements ActionListener {
 			t1.start();
 //			t2.start();
 			
-			sndDrawingThread = new SndDrawingThread(this);
-			drawingList.add(sndDrawingThread);
-			Thread t3 = new Thread(sndDrawingThread);
-			t3.start();
+//			sndDrawingThread = new SndDrawingThread(this);
+//			drawingList.add(sndDrawingThread);
+//			Thread t3 = new Thread(sndDrawingThread);
+//			t3.start();
 
 		}
 	}
@@ -259,6 +262,7 @@ public class LetsGetItServer extends JFrame implements ActionListener {
 		if (obj == ok) {
 			try {
 				mp = new MusicPlay(getIndex()); // 踰꾪듉 �겢由� �떆 MusicPlay �떎�뻾
+				sndChatThread.broadCasting("index >> " + getIndex()); 
 			} catch (IOException ee) {
 				ee.printStackTrace();
 			}
@@ -272,13 +276,9 @@ public class LetsGetItServer extends JFrame implements ActionListener {
 		return sendList;
 	}
 	
-	public ArrayList <SndDrawingThread> getDrawingList(){
-		return drawingList;
-	}
-	
-	public ArrayList< SndMusicThread > getMusickList() {
-		return musicList;
-	}
+//	public ArrayList< SndMusicThread > getMusickList() {
+//		return musicList;
+//	}
 	
 	public Socket getSocket() {
 		return socket;

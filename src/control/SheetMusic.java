@@ -8,11 +8,12 @@ import java.io.*;
 
 public class SheetMusic extends JFrame {
    int index;
+   public static File f;
    public SheetMusic(){}
    
    public File showSheet(int index) throws IOException{
       this.index = index;
-      File f = new File("");
+      f = new File("");
       
       if(index==0){               
          f = new File("img/곰세마리.jpg");

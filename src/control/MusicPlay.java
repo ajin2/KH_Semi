@@ -3,18 +3,21 @@ package control;
 import javax.swing.*;
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.*;
 import java.io.*;
 
-public class MusicPlay extends JFrame {
+public class MusicPlay extends JFrame implements ActionListener{
 	SheetMusic sm;
-	int index;
+	File f;
 	Image img = null, chimg;
 	JMenuBar mb;
 	JMenu mdrawing;
 	JMenuItem msheet, mmemo, msave;
 	JPanel psheet, pmusic;
 	JButton btn;
+	int index;
 
 	public void init() {
 		psheet = new JPanel();
@@ -38,6 +41,7 @@ public class MusicPlay extends JFrame {
 
 	public MusicPlay(int index) throws IOException {
 
+		this.index = LetsGetItServer.getIndex();
 		// MenuBar
 		mb = new JMenuBar();
 		setJMenuBar(mb);
@@ -71,5 +75,26 @@ public class MusicPlay extends JFrame {
 		setBounds(118, 50, 1237, 893);
 		setAlwaysOnTop(true);
 		setResizable(false);
+		
+		msheet.addActionListener(this);
+		mmemo.addActionListener(this);
+		msave.addActionListener(this);
 	}	
+	public void actionPerformed(ActionEvent e) {
+		Object obj = e.getSource();
+
+		if (obj == msheet) {
+			try {
+				f = sm.showSheet(index);
+				new SheetDrawing(f).displayGUI();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}else if (obj == mmemo){
+			
+		}else if (obj == msave){
+			
+		}
+	}
 }

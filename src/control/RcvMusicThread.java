@@ -15,16 +15,16 @@ public class RcvMusicThread extends Thread {
 		boolean isStop = false;
 		
 		while(!isStop) {
-			try {
-				message = (String)letsGetItClient.getOis().readObject();
-				receiveMsg = message.split("#");
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-				isStop = true;
-			} catch (IOException e) {
-				e.printStackTrace();
-				isStop = true;
-			} 
+//			try {
+//				message = (String)letsGetItClient.getOis().readObject();
+//				receiveMsg = message.split("#");
+//			} catch (ClassNotFoundException e) {
+//				e.printStackTrace();
+//				isStop = true;
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//				isStop = true;
+//			} 
 	
 			// 어떤 악기에서 보냈는지 판별하는 if문
 			if(receiveMsg[0].equals("0") && (letsGetItClient.getThisUserSelected() != 0)) {		// piano

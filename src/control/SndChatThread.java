@@ -2,7 +2,7 @@ package control;
 
 import java.io.*;
 import java.net.Socket;
-import java.net.SocketException;
+import java.net.SocketException; 
 
 public class SndChatThread implements Runnable {
 	private Socket socket;

@@ -119,10 +119,10 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 	InstrumentPiano piano;
 	
 	// 악보
-	int index;
 	Image img = null, chimg;
 	JPanel psheet;
 	SheetMusic sm;
+	int index;
 	
 	// 악기
 	int instrumentNum;
@@ -133,6 +133,8 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 	
 	// Network Instrument 
 	LetsGetItClient letsGetItClient = new LetsGetItClient();
+	SheetDrawing sd;
+	private File f;
 		
 	public void init() {
 		psheet = new JPanel();
@@ -162,6 +164,8 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 	}
 	
 	public MusicPlayClient(int index, int instrumentNum) throws IOException {
+		
+		this.index = LetsGetItClient.getIndex();
 		// MenuBar
 		mb = new JMenuBar();
 		setJMenuBar(mb);
@@ -243,7 +247,13 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 		
 		// MenuItem
 		if(obj == msheet){
-			new SheetDrawing().displayGUI();
+			try {
+				sd.f = sm.showSheet(index);
+				new SheetDrawing(f).displayGUI();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 		if(obj == mmemo){
 			
