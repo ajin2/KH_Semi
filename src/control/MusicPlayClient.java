@@ -240,7 +240,7 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 		
 		// MenuItem
 		if(obj == msheet){
-			
+			new SheetDrawing().displayGUI();
 		}
 		if(obj == mmemo){
 			

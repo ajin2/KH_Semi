@@ -3,10 +3,12 @@ package control;
 import javax.swing.*;
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.*;
 import java.io.*;
 
-public class MusicPlay extends JFrame {
+public class MusicPlay extends JFrame implements ActionListener {
 	SheetMusic sm;
 	int index;
 	Image img = null, chimg;
@@ -58,13 +60,6 @@ public class MusicPlay extends JFrame {
 		img = ImageIO.read(sm.showSheet(index));
 		init();
 
-		btn = new JButton("�Ǳ�");
-
-		// ----------------------------------------------- 악보
-
-		btn = new JButton("악기");
-		// ----------------------------------------------- 악기구현
-
 		GridBagLayout gbl = new GridBagLayout();
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.fill = GridBagConstraints.BOTH;
@@ -79,5 +74,24 @@ public class MusicPlay extends JFrame {
 		setBounds(118, 50, 1237, 893);
 		setAlwaysOnTop(true);
 		setResizable(false);
+		
+		msheet.addActionListener(this);
+		mmemo.addActionListener(this);
+		msave.addActionListener(this);
 	}	
+	
+	public void actionPerformed(ActionEvent event) {
+		Object obj = event.getSource();
+		
+		// MenuItem
+		if(obj == msheet){
+			new SheetDrawing().displayGUI();
+		}
+		if(obj == mmemo){
+			
+		}
+		if(obj == msave){
+	//		sheetsave = new sheetsave();
+		}
+	}
 }
