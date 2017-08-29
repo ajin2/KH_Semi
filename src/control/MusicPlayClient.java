@@ -8,18 +8,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.image.*;
 import java.io.*;
-import java.net.Socket;
-
-import javax.sound.sampled.*;
-import javax.swing.*;
-import javax.sound.midi.*;
 
 public class MusicPlayClient extends JFrame implements ActionListener {
 	JMenuBar mb;
 	JMenu mdrawing;
-	JMenuItem msheet, mmemo, msave;
+	JMenuItem msheet, msave;
 	SheetSave sheetsave;
 	Instrument instrument;
 	InstrumentPiano piano;
@@ -38,7 +32,6 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 	JButton DolemiBtn[];
 	
 	// Network Instrument 
-
 	LetsGetItClient letsGetItClient;
 	SndThreadControl sndThreadControl;
 	private File f;
@@ -56,7 +49,6 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 	
 	public void instrumentInit() {
 		instruPanel = new JPanel();
-
 		instruPanel.setBackground(new Color(90, 84, 92));
 		instruimg = instrumentImg.getScaledInstance(800, 420, java.awt.Image.SCALE_SMOOTH);
 		JLabel instru = new JLabel(new ImageIcon(instruimg));
@@ -92,11 +84,9 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 		buttonPanel.setBackground(new Color(90, 84, 92));
 		
 		msheet = new JMenuItem("On Sheet");
-		mmemo = new JMenuItem("New Memo");
 		msave = new JMenuItem("Save");
 
 		mdrawing.add(msheet);
-		mdrawing.add(mmemo);
 		mdrawing.add(msave);
 
 		// Sheet Print
@@ -130,25 +120,20 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 
 		addGrid(gbl, gbc, psheet, 0, 0, 1, 1, 1, 1);
 		addGrid(gbl, gbc, instruPanel, 0, 1, 1, 1, 1, 4);
-
 		addGrid(gbl, gbc, buttonPanel, 0, 2, 1, 1, 0, 0);	
 		pack();
 
 		setVisible(true);
 
-		setBounds(118, 50, 1000, 893);
+		setBounds(438, 50, 1000, 893);
 		setAlwaysOnTop(true);
 		setResizable(false);
 		
 		msheet.addActionListener(this);
-		mmemo.addActionListener(this);
 		msave.addActionListener(this);
 		
-		
-		// TODO 코드 piano뿐만 아니라 bass drum elec까지 넣어야해서 코드 정리 필요함.
 		// Key Event
 		buttonPanel.requestFocus();
-
 		MusicKeyAdapter adapter = new MusicKeyAdapter();
 		buttonPanel.addKeyListener(adapter);
 		
@@ -163,7 +148,6 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 		Object obj = event.getSource();
 		
 		// MenuItem
-
 		if (obj == msheet) {
 			try {
 				f = sm.showSheet(index);
@@ -175,19 +159,20 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 				e1.printStackTrace();
 			}
 		}
-
-		if(obj == msave){
-		}
 		
+		if (obj == msave) {
+			if(sheetDrawing != null){
+				SheetSave sheetsave = new SheetSave(this, sheetDrawing.getbImage());
+				sheetsave.save();
+			}
+		}
+
 		// play instrument
 		for(int i = 0; i < 8; i++) {
 			if(obj == DolemiBtn[i]) {
 				if(instrumentNum == 0) {
-					InstrumentPiano piano = new InstrumentPiano(i);
-					
+					InstrumentPiano piano = new InstrumentPiano(i);	
 					try {
-						///System.out.println("music" + "#" + instrumentNum + "#" + i);
-						//letsGetItClient.setOos(new ObjectOutputStream(socket.getOutputStream()));
 						letsGetItClient.getOos().writeObject("music" + "#" + instrumentNum + "#" + i);
 						piano.start();
 						synchronized(piano) {

@@ -1,6 +1,5 @@
 package control;
 
-
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -13,7 +12,6 @@ import javax.swing.*;
 public class SheetDrawing implements ActionListener {
 	SndThreadControl sndThreadControl = null;
 	BufferedImage bImage, AcImage;
-
 	ImageIcon image;
 	JLabel imageLabel;
 	JFrame frame;
@@ -24,12 +22,10 @@ public class SheetDrawing implements ActionListener {
 	int xDragged = 0;
 	int yDragged = 0;
 	int xc, yc, xd, yd;
-  
 	Color ch = Color.BLACK;
 	int l, x, y, ox, oy, width = 2;
 	Graphics g1;
 	Graphics2D g2;
-
 	public boolean paint = false;
 	private JFrame letsGetItUser;
 
@@ -82,7 +78,7 @@ public class SheetDrawing implements ActionListener {
 			image = new ImageIcon(bImage);
 		} catch (Exception e) {
 			e.printStackTrace();
-	}
+		}
 		image = new ImageIcon(bImage);
 		imageLabel.setIcon(new ImageIcon(bImage));
 	}
@@ -102,6 +98,7 @@ public class SheetDrawing implements ActionListener {
 
 			xc = me.getX();
 			yc = me.getY();
+
 			paint = true;
 		}
 
@@ -186,6 +183,7 @@ public class SheetDrawing implements ActionListener {
 
 	public void displayGUI() {
 		JFrame frame = new JFrame("Painting on Sheet");
+
 		JPanel contentPane = new JPanel();
 		contentPane.setLayout(new BorderLayout());
 
@@ -226,8 +224,7 @@ public class SheetDrawing implements ActionListener {
 
 		frame.add(contentPane);
 		frame.pack();
-
-    frame.setBounds(600, 200, 600, 500);
+		frame.setBounds(600, 200, 600, 500);
 		frame.setAlwaysOnTop(true);
 		frame.setVisible(true);
 
@@ -241,7 +238,12 @@ public class SheetDrawing implements ActionListener {
 		thin.addActionListener(this);
 		plain.addActionListener(this);
 	}
-  
+
+	/*
+	 * public static void main(String[] args) { new SheetDrawing().displayGUI();
+	 * }
+	 */
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
@@ -257,8 +259,27 @@ public class SheetDrawing implements ActionListener {
 		} else if (obj == c) {
 			this.setC(Color.WHITE);
 		} else if (obj == ac) {
-      File f = SheetMusic.f;
-			this.Allc(f);
+
+			if (letsGetItUser instanceof LetsGetItClient) {
+				try {
+					((LetsGetItClient) letsGetItUser).getOos().writeObject("Allc#OhYeah");
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			} else if (letsGetItUser instanceof LetsGetItServer) {
+				if (((LetsGetItServer) letsGetItUser).getSndThreadControl() != null)
+					try {
+						((LetsGetItServer) letsGetItUser).getSndThreadControl().broadCasting("Allc#OhYeah");
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+			}
+
+			File f = SheetMusic.f;
+			Allc(f);
+
 		} else if (obj == bold) {
 			width = 4;
 			this.setW(width);

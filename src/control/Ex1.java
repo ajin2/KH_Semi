@@ -33,7 +33,7 @@ class Ex1 extends JFrame implements ActionListener {
 		Hyeok.add(la);
 		Hyeok.add(tf);
 		Hyeok.add(loginButton);
-		setBounds(500, 50, 250, 250);
+		setBounds(800, 300, 260, 250);
 		setVisible(true);
 		add(Hyeok);
 		
@@ -49,7 +49,7 @@ class Ex1 extends JFrame implements ActionListener {
 			
 			LetsGetItClient letsGetItC;
 			try {
-				letsGetItC = new LetsGetItClient("localhost", 5000, getStr());
+				letsGetItC = new LetsGetItClient("172.30.1.7", 5000, getStr());
 				letsGetItC.init();
 			} catch (IOException e1) {
 				e1.printStackTrace();

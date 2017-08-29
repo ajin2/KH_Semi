@@ -9,9 +9,7 @@ class HelpSub extends JFrame implements ActionListener {
 
 	JButton close, ok;
 	private JButton a, b, c, d, e;
-	private JTextArea ta;
-	private JLabel la, lb;
-	private JTextField tf;
+	private JLabel la;
 	private JPanel Hyeok;
 
 	public HelpSub() {
@@ -25,37 +23,44 @@ class HelpSub extends JFrame implements ActionListener {
 
 		Hyeok = new JPanel();
 		Hyeok.setBackground(new Color(62, 60, 63));
+		
 		a = new JButton("통합");
 		a.setFont(new Font("바탕", Font.BOLD, 15));
 		a.setPreferredSize(new Dimension(80, 50));
 		a.setBackground(new Color(25, 25, 25));
 		a.setForeground(Color.WHITE);
+		
 		b = new JButton("피아노");
 		b.setFont(new Font("바탕", Font.BOLD, 15));
 		b.setPreferredSize(new Dimension(80, 50));
 		b.setBackground(new Color(25, 25, 25));
 		b.setForeground(Color.WHITE);
+		
 		c = new JButton("드럼");
 		c.setFont(new Font("바탕", Font.BOLD, 15));
 		c.setPreferredSize(new Dimension(80, 50));
 		c.setBackground(new Color(25, 25, 25));
 		c.setForeground(Color.WHITE);
+		
 		d = new JButton("베이스기타");
 		d.setFont(new Font("바탕", Font.BOLD, 15));
 		d.setPreferredSize(new Dimension(110, 50));
 		d.setBackground(new Color(25, 25, 25));
 		d.setForeground(Color.WHITE);
+		
 		e = new JButton("기타");
 		e.setFont(new Font("바탕", Font.BOLD, 15));
 		e.setPreferredSize(new Dimension(80, 50));
 		e.setBackground(new Color(25, 25, 25));
 		e.setForeground(Color.WHITE);
+		
 		Hyeok.add(a);
 		Hyeok.add(b);
 		Hyeok.add(c);
 		Hyeok.add(d);
 		Hyeok.add(e);
 		Hyeok.setLayout(new FlowLayout());
+		
 		add(Hyeok);
 
 		a.addActionListener(this);
