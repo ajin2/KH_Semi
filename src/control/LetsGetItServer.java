@@ -29,7 +29,6 @@ public class LetsGetItServer extends JFrame implements ActionListener {
 	JLabel sheet_la, blank;
 	static JComboBox<String> sheet;
 	String sheet_name[] = { "곰세마리", "나비야", "학교종이 땡땡땡", "올챙이와 개구리", "퐁당퐁당" };
-	boolean checkOk = false; // 클라이언트에게 악보를 설정했다고 알려주는 변수.
 
 	public static File sendbtn = new File("imgg/send.png");
 	public static File Bass = new File("imgg/Bass.jpg");
@@ -50,7 +49,6 @@ public class LetsGetItServer extends JFrame implements ActionListener {
 	private Socket socket;
 	private String id = "관리자";
 	ServerSocket serverSocket;
-	private ObjectOutputStream oos;
 	
 	SndThreadControl sndThreadControl = null;
 	private SheetDrawing sheetDrawing;
@@ -192,7 +190,7 @@ public class LetsGetItServer extends JFrame implements ActionListener {
 		hs = new HelpSub();
 
 		setVisible(true);
-		setBounds(115, 50, 1500, 900);
+		setBounds(115, 50, 1670, 900);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		// key event
@@ -231,7 +229,7 @@ public class LetsGetItServer extends JFrame implements ActionListener {
 		 String msg = chatField.getText();
 
 		if (obj == mhelpview) {
-			hs.setSize(500, 500);
+			hs.setBounds(115, 50, 500, 500);
 			hs.setVisible(true);
 		} else if (obj == hs.close) {
 			hs.dispose();
@@ -254,12 +252,10 @@ public class LetsGetItServer extends JFrame implements ActionListener {
 			try {
 				mp = new MusicPlay(getIndex(), this); 
 				sndThreadControl.broadCasting("sheet" + "#" + getIndex());
+				chatArea.append("Selected a Music Sheet" + "\n");
 			} catch (IOException ee) {
 				ee.printStackTrace();
 			}
-
-			// 클라이언트에게 버튼이 눌렸는지 알려주는 boolean값
-			checkOk = true;
 		}
 	}
 

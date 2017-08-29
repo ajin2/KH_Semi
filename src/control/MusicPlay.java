@@ -5,7 +5,6 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.*;
 import java.io.*;
 
 public class MusicPlay extends JFrame implements ActionListener {
@@ -15,9 +14,10 @@ public class MusicPlay extends JFrame implements ActionListener {
 	Image img = null, chimg;
 	JMenuBar mb;
 	JMenu mdrawing;
-	JMenuItem msheet, mmemo, msave;
+	JMenuItem msheet, msave;
 	JPanel psheet, pmusic;
 	private LetsGetItServer letsGetItServer;
+	private SheetDrawing sheetDrawing;
 
 	public void init() {
 		psheet = new JPanel();
@@ -51,11 +51,9 @@ public class MusicPlay extends JFrame implements ActionListener {
 		mb.add(mdrawing);
 
 		msheet = new JMenuItem("On Sheet");
-		mmemo = new JMenuItem("New Memo");
 		msave = new JMenuItem("Save");
 
 		mdrawing.add(msheet);
-		mdrawing.add(mmemo);
 		mdrawing.add(msave);
 
 		// Sheet Print
@@ -77,29 +75,28 @@ public class MusicPlay extends JFrame implements ActionListener {
 		setAlwaysOnTop(true);
 		setResizable(false);
 
-
 		msheet.addActionListener(this);
-		mmemo.addActionListener(this);
 		msave.addActionListener(this);
 	}
-	
+
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
 
 		if (obj == msheet) {
 			try {
 				f = sm.showSheet(index);
-				SheetDrawing sheetDrawing = new SheetDrawing(f, letsGetItServer);
+				sheetDrawing = new SheetDrawing(f, letsGetItServer);
 				sheetDrawing.displayGUI();
 				letsGetItServer.setSheetDrawing(sheetDrawing);
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-		}else if (obj == mmemo){
-			
-		}else if (obj == msave){
-			
+		} else if (obj == msave) {
+			if (sheetDrawing != null) {
+				SheetSave sheetsave = new SheetSave(this, sheetDrawing.getbImage());
+				sheetsave.save();
+			}
 		}
 	}
 }

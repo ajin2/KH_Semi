@@ -53,6 +53,7 @@ public class LetsGetItClient extends JFrame implements ActionListener {
 	private String id, ip;
 	private int port;
 	private RcvThreadControl rtc;
+	private boolean choosenSheet;
 
 	// TODO 서버가 지정한 악보 데이터로 바꿔야함.
 	public static int getIndex() {
@@ -225,9 +226,10 @@ public class LetsGetItClient extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
 		String msg = chatField.getText();
-
+		sheet.setSelectedIndex(getIndex());
+		
 		if (obj == mhelpview) {
-			hs.setSize(500, 500);
+			hs.setBounds(115, 50, 500, 500);
 			hs.setVisible(true);
 		} else if (obj == hs.close) {
 			hs.dispose();
@@ -245,52 +247,48 @@ public class LetsGetItClient extends JFrame implements ActionListener {
 			}
 		}
 
-		// Server 없이 Client Test용. 서버 통신 되면 onlyTestBooleanValue 다 지우면 됌
-		boolean onlyTestBooleanValue = true;
-		if (obj == ok) {
-			onlyTestBooleanValue = true;
-		}
-
 		// 서버가 악보를 선택하고 사용자가 악기를 클릭했을 때
-		if (obj == pianoBtn && onlyTestBooleanValue == true) {
-			try {
-				musicPlayClient = new MusicPlayClient(getIndex(), 0, this);
-				if(rtc != null)
-					rtc.addMusicPlayClient(musicPlayClient);
-			} catch (IOException ee) {
-				ee.printStackTrace();
+		if(choosenSheet == true) {
+			if (obj == pianoBtn) {
+				try {
+					musicPlayClient = new MusicPlayClient(getIndex(), 0, this);
+					if(rtc != null)
+						rtc.addMusicPlayClient(musicPlayClient);
+				} catch (IOException ee) {
+					ee.printStackTrace();
+				}
+				setThisUserSelected(0);
 			}
-			setThisUserSelected(0);
-		}
-		if (obj == electricBtn && onlyTestBooleanValue == true) {
-			try {
-				musicPlayClient = new MusicPlayClient(getIndex(), 1, this); // 踰꾪듉
-				if(rtc != null)
-					rtc.addMusicPlayClient(musicPlayClient);
-			} catch (IOException ee) {
-				ee.printStackTrace();
+			if (obj == electricBtn) {
+				try {
+					musicPlayClient = new MusicPlayClient(getIndex(), 1, this); // 踰꾪듉
+					if(rtc != null)
+						rtc.addMusicPlayClient(musicPlayClient);
+				} catch (IOException ee) {
+					ee.printStackTrace();
+				}
+				setThisUserSelected(1);
 			}
-			setThisUserSelected(1);
-		}
-		if (obj == bassBtn && onlyTestBooleanValue == true) {
-			try {
-				musicPlayClient = new MusicPlayClient(getIndex(), 2, this); 
-				if(rtc != null)
-					rtc.addMusicPlayClient(musicPlayClient);
-			} catch (IOException ee) {
-				ee.printStackTrace();
+			if (obj == bassBtn) {
+				try {
+					musicPlayClient = new MusicPlayClient(getIndex(), 2, this); 
+					if(rtc != null)
+						rtc.addMusicPlayClient(musicPlayClient);
+				} catch (IOException ee) {
+					ee.printStackTrace();
+				}
+				setThisUserSelected(2);
 			}
-			setThisUserSelected(2);
-		}
-		if (obj == drumBtn && onlyTestBooleanValue == true) {
-			try {
-				musicPlayClient = new MusicPlayClient(getIndex(), 3, this); 
-				if(rtc != null)
-					rtc.addMusicPlayClient(musicPlayClient);
-			} catch (IOException ee) {
-				ee.printStackTrace();
+			if (obj == drumBtn) {
+				try {
+					musicPlayClient = new MusicPlayClient(getIndex(), 3, this); 
+					if(rtc != null)
+						rtc.addMusicPlayClient(musicPlayClient);
+				} catch (IOException ee) {
+					ee.printStackTrace();
+				}
+				setThisUserSelected(3);
 			}
-			setThisUserSelected(3);
 		}
 	}
 
@@ -339,6 +337,14 @@ public class LetsGetItClient extends JFrame implements ActionListener {
 
 	public int getThisUserSelected() {
 		return thisUserSelected;
+	}
+	
+	public boolean getChoosenSheet() {
+		return choosenSheet;
+	}
+	
+	public void setChoosenSheet(boolean choosenSheet) {
+		this.choosenSheet = choosenSheet;
 	}
 
 }
