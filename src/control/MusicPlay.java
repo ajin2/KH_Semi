@@ -3,18 +3,21 @@ package control;
 import javax.swing.*;
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.*;
 import java.io.*;
 
-public class MusicPlay extends JFrame {
+public class MusicPlay extends JFrame implements ActionListener {
 	SheetMusic sm;
+	File f;
 	int index;
 	Image img = null, chimg;
 	JMenuBar mb;
 	JMenu mdrawing;
 	JMenuItem msheet, mmemo, msave;
 	JPanel psheet, pmusic;
-	JButton btn;
+	private LetsGetItServer letsGetItServer;
 
 	public void init() {
 		psheet = new JPanel();
@@ -23,8 +26,8 @@ public class MusicPlay extends JFrame {
 		JLabel sheet = new JLabel(new ImageIcon(chimg));
 		psheet.add(sheet);
 	}
-		
-		public void addGrid(GridBagLayout gbl, GridBagConstraints gbc, Component c, int gridx, int gridy, int gridwidth,
+
+	public void addGrid(GridBagLayout gbl, GridBagConstraints gbc, Component c, int gridx, int gridy, int gridwidth,
 			int gridheight, int weightx, int weighty) {
 		gbc.gridx = gridx;
 		gbc.gridy = gridy;
@@ -36,7 +39,9 @@ public class MusicPlay extends JFrame {
 		add(c);
 	}
 
-	public MusicPlay(int index) throws IOException {
+	public MusicPlay(int index, LetsGetItServer letsGetItServer) throws IOException {
+		this.letsGetItServer = letsGetItServer;
+		this.index = LetsGetItServer.getIndex();
 
 		// MenuBar
 		mb = new JMenuBar();
@@ -58,20 +63,12 @@ public class MusicPlay extends JFrame {
 		img = ImageIO.read(sm.showSheet(index));
 		init();
 
-		btn = new JButton("�Ǳ�");
-
-		// ----------------------------------------------- 악보
-
-		btn = new JButton("악기");
-		// ----------------------------------------------- 악기구현
-
 		GridBagLayout gbl = new GridBagLayout();
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.fill = GridBagConstraints.BOTH;
 		setLayout(gbl);
 
 		addGrid(gbl, gbc, psheet, 0, 0, 1, 1, 1, 1);
-		addGrid(gbl, gbc, btn, 0, 1, 1, 1, 1, 4);
 
 		pack();
 
@@ -79,5 +76,29 @@ public class MusicPlay extends JFrame {
 		setBounds(118, 50, 1237, 893);
 		setAlwaysOnTop(true);
 		setResizable(false);
-	}	
+
+		msheet.addActionListener(this);
+		mmemo.addActionListener(this);
+		msave.addActionListener(this);
+	}
+	
+	public void actionPerformed(ActionEvent e) {
+		Object obj = e.getSource();
+
+		if (obj == msheet) {
+			try {
+				f = sm.showSheet(index);
+				SheetDrawing sheetDrawing = new SheetDrawing(f, letsGetItServer);
+				sheetDrawing.displayGUI();
+				letsGetItServer.setSheetDrawing(sheetDrawing);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}else if (obj == mmemo){
+			
+		}else if (obj == msave){
+			
+		}
+	}
 }

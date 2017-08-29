@@ -20,16 +20,16 @@ public class Instrument extends Thread {
 		File f = new File("");
 
 		if (index == 0) {
-			f = new File("img/piano.png");
+			f = new File("img/Piano.png");
 		} else if (index == 1) {
-			f = new File("img/elec.png");
+			f = new File("img/Guitar_01.png");
 		} else if (index == 2) {
-			f = new File("img/bass.png");
+			f = new File("img/Bass_Guitar.png");
 		} else if (index == 3) {
-			f = new File("img/drum.png");
+			f = new File("img/Drums.png");
 		}
-		
-		return f;		
+
+		return f;	
 	}
 
 }
