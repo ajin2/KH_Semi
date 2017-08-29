@@ -77,6 +77,7 @@ public class MusicPlay extends JFrame implements ActionListener {
 		setAlwaysOnTop(true);
 		setResizable(false);
 
+
 		msheet.addActionListener(this);
 		mmemo.addActionListener(this);
 		msave.addActionListener(this);

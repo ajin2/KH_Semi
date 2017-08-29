@@ -1,5 +1,6 @@
 package control;
 
+
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -12,6 +13,7 @@ import javax.swing.*;
 public class SheetDrawing implements ActionListener {
 	SndThreadControl sndThreadControl = null;
 	BufferedImage bImage, AcImage;
+
 	ImageIcon image;
 	JLabel imageLabel;
 	JFrame frame;
@@ -22,10 +24,12 @@ public class SheetDrawing implements ActionListener {
 	int xDragged = 0;
 	int yDragged = 0;
 	int xc, yc, xd, yd;
+  
 	Color ch = Color.BLACK;
 	int l, x, y, ox, oy, width = 2;
 	Graphics g1;
 	Graphics2D g2;
+
 	public boolean paint = false;
 	private JFrame letsGetItUser;
 
@@ -78,7 +82,7 @@ public class SheetDrawing implements ActionListener {
 			image = new ImageIcon(bImage);
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+	}
 		image = new ImageIcon(bImage);
 		imageLabel.setIcon(new ImageIcon(bImage));
 	}
@@ -98,7 +102,6 @@ public class SheetDrawing implements ActionListener {
 
 			xc = me.getX();
 			yc = me.getY();
-
 			paint = true;
 		}
 
@@ -153,12 +156,6 @@ public class SheetDrawing implements ActionListener {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-
-				/*
-				 * try { sndChatThread.broadCasting("xypoint >> " + xClicked +
-				 * yClicked + xDragged + yDragged); } catch (IOException e) { //
-				 * TODO Auto-generated catch block e.printStackTrace(); }
-				 */
 			}
 		}
 	};
@@ -189,7 +186,6 @@ public class SheetDrawing implements ActionListener {
 
 	public void displayGUI() {
 		JFrame frame = new JFrame("Painting on Sheet");
-
 		JPanel contentPane = new JPanel();
 		contentPane.setLayout(new BorderLayout());
 
@@ -230,7 +226,8 @@ public class SheetDrawing implements ActionListener {
 
 		frame.add(contentPane);
 		frame.pack();
-		frame.setBounds(600, 200, 600, 500);
+
+    frame.setBounds(600, 200, 600, 500);
 		frame.setAlwaysOnTop(true);
 		frame.setVisible(true);
 
@@ -244,12 +241,7 @@ public class SheetDrawing implements ActionListener {
 		thin.addActionListener(this);
 		plain.addActionListener(this);
 	}
-
-	/*
-	 * public static void main(String[] args) { new SheetDrawing().displayGUI();
-	 * }
-	 */
-
+  
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
@@ -265,7 +257,7 @@ public class SheetDrawing implements ActionListener {
 		} else if (obj == c) {
 			this.setC(Color.WHITE);
 		} else if (obj == ac) {
-			File f = SheetMusic.f;
+      File f = SheetMusic.f;
 			this.Allc(f);
 		} else if (obj == bold) {
 			width = 4;

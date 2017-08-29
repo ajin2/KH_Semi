@@ -38,6 +38,7 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 	JButton DolemiBtn[];
 	
 	// Network Instrument 
+
 	LetsGetItClient letsGetItClient;
 	SndThreadControl sndThreadControl;
 	private File f;
@@ -46,6 +47,7 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 	public void init() {
 		psheet = new JPanel();
 		psheet.setBackground(new Color(90, 84, 92));
+
 		psheet.setLayout(new GridLayout(1, 1));
 		chimg = img.getScaledInstance(650, 420, java.awt.Image.SCALE_SMOOTH);
 		JLabel sheet = new JLabel(new ImageIcon(chimg));
@@ -54,6 +56,7 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 	
 	public void instrumentInit() {
 		instruPanel = new JPanel();
+
 		instruPanel.setBackground(new Color(90, 84, 92));
 		instruimg = instrumentImg.getScaledInstance(800, 420, java.awt.Image.SCALE_SMOOTH);
 		JLabel instru = new JLabel(new ImageIcon(instruimg));
@@ -127,11 +130,12 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 
 		addGrid(gbl, gbc, psheet, 0, 0, 1, 1, 1, 1);
 		addGrid(gbl, gbc, instruPanel, 0, 1, 1, 1, 1, 4);
-		addGrid(gbl, gbc, buttonPanel, 0, 2, 1, 1, 0, 0);
-		
+
+		addGrid(gbl, gbc, buttonPanel, 0, 2, 1, 1, 0, 0);	
 		pack();
 
 		setVisible(true);
+
 		setBounds(118, 50, 1000, 893);
 		setAlwaysOnTop(true);
 		setResizable(false);
@@ -144,6 +148,7 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 		// TODO 코드 piano뿐만 아니라 bass drum elec까지 넣어야해서 코드 정리 필요함.
 		// Key Event
 		buttonPanel.requestFocus();
+
 		MusicKeyAdapter adapter = new MusicKeyAdapter();
 		buttonPanel.addKeyListener(adapter);
 		
@@ -158,6 +163,7 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 		Object obj = event.getSource();
 		
 		// MenuItem
+
 		if (obj == msheet) {
 			try {
 				f = sm.showSheet(index);
@@ -171,7 +177,6 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 		}
 
 		if(obj == msave){
-
 		}
 		
 		// play instrument
@@ -538,5 +543,4 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 
 		}
 	}
-	
 }
