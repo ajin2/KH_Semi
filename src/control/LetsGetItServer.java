@@ -21,7 +21,7 @@ public class LetsGetItServer extends JFrame implements ActionListener {
 	JPanel chatPanel, p3, writePanel, p5, readPanel; 					// Chatting Panel
 	JButton ok, send, b1, b2;
 	JButton pianoBtn, electricBtn, bassBtn, drumBtn; 	// Instrument Button
-	JTextArea chatArea;
+	public static JTextArea chatArea;
 	JTextField chatField;
 	JScrollPane jsp;
 	JLabel sheet_la, blank;

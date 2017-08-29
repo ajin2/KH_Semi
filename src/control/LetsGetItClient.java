@@ -17,7 +17,7 @@ public class LetsGetItClient extends JFrame implements ActionListener {
 	JPanel chatPanel, p3, writePanel, p5, readPanel;
 	JButton ok, send, b1, b2;
 	JButton pianoBtn, electricBtn, bassBtn, drumBtn; // Instrument Button
-	JTextArea chatArea;
+	public static JTextArea chatArea;
 	JTextField chatField;
 	JScrollPane jsp;
 	JLabel sheet_la, blank;
@@ -212,7 +212,6 @@ public class LetsGetItClient extends JFrame implements ActionListener {
 			if (!str.equals("")) {
 				try {
 					oos.writeObject("chat" + "#" + id + "#"  + msg);
-					chatArea.append(id + " >> " + msg + "\n");
 				} catch(IOException exception) {
 					exception.printStackTrace();
 				}

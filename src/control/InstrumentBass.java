@@ -11,7 +11,7 @@ import javax.sound.sampled.Clip;
 public class InstrumentBass extends Thread {
 	
 	Clip clip = null;
-	String directory = "instrumentbass/";
+	String directory = "testbass/";
 	
 	public InstrumentBass(int songNumber) {
 		try {

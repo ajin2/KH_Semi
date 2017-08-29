@@ -6,7 +6,7 @@ import javax.sound.sampled.*;
 public class InstrumentPiano extends Thread {
 
 	Clip clip = null;
-	String directory = "instrumentpiano/";
+	String directory = "testpiano/";
 
 	public InstrumentPiano(int songNumber) {
 		try {
