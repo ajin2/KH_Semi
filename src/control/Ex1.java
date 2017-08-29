@@ -19,9 +19,16 @@ class Ex1 extends JFrame implements ActionListener {
 	
 	public Ex1() throws UnknownHostException, IOException {
 		Hyeok = new JPanel();
+		Hyeok.setBackground(new Color(62, 60, 63));
+		
 		la = new JLabel(" 채팅닉네임 : ");
+		la.setFont(new Font("바탕", Font.BOLD, 15));
+		la.setForeground(Color.WHITE);
+		
 		tf = new JTextField(15);
 		loginButton = new JButton("Login");
+		loginButton.setForeground(Color.WHITE);
+		loginButton.setBackground(new Color(25, 25, 25));
 		
 		Hyeok.add(la);
 		Hyeok.add(tf);

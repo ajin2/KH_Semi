@@ -1,32 +1,19 @@
 package control;
 
-import java.awt.BasicStroke;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+
+import java.awt.*;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
 public class SheetDrawing implements ActionListener {
+	SndThreadControl sndThreadControl = null;
+	BufferedImage bImage, AcImage;
 
-	private static final String FILE_PATH = "img/곰세마리.jpg";
-
-	BufferedImage bImage;
 	ImageIcon image;
 	JLabel imageLabel;
 	JFrame frame;
@@ -36,10 +23,35 @@ public class SheetDrawing implements ActionListener {
 	int yClicked = 0;
 	int xDragged = 0;
 	int yDragged = 0;
+	int xc, yc, xd, yd;
+  
 	Color ch = Color.BLACK;
 	int l, x, y, ox, oy, width = 2;
 	Graphics g1;
 	Graphics2D g2;
+
+	public boolean paint = false;
+	private JFrame letsGetItUser;
+
+	public boolean getPaint() {
+		return paint;
+	}
+
+	public int getXC() {
+		return xc;
+	}
+
+	public int getYC() {
+		return yc;
+	}
+
+	public int getXD() {
+		return xd;
+	}
+
+	public int getYD() {
+		return yd;
+	}
 
 	public void setC(Color ch) {
 		this.ch = ch;
@@ -61,22 +73,25 @@ public class SheetDrawing implements ActionListener {
 		return g2;
 	}
 
-	public void Allc() {
-		Graphics2D g2 = bImage.createGraphics();
+	public void Allc(File f) {
+		g2 = bImage.createGraphics();
 		g2.fillRect(0, 0, 600, 600);
 		g2.dispose();
 		try {
-			bImage = ImageIO.read(new File(FILE_PATH));
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+			bImage = ImageIO.read(f);
+			image = new ImageIcon(bImage);
+		} catch (Exception e) {
+			e.printStackTrace();
+	}
 		image = new ImageIcon(bImage);
 		imageLabel.setIcon(new ImageIcon(bImage));
 	}
 
-	private MouseAdapter mouseListener = new MouseAdapter() {
-		private boolean paint = false;
+	public JLabel getImageLabel() {
+		return imageLabel;
+	}
+
+	public MouseAdapter mouseListener = new MouseAdapter() {
 
 		@Override
 		public void mousePressed(MouseEvent me) {
@@ -85,6 +100,8 @@ public class SheetDrawing implements ActionListener {
 			xDragged = xClicked;
 			yDragged = yClicked;
 
+			xc = me.getX();
+			yc = me.getY();
 			paint = true;
 		}
 
@@ -105,40 +122,70 @@ public class SheetDrawing implements ActionListener {
 				xClicked = xDragged;
 				yClicked = yDragged;
 
-				xDragged = me.getX();
-				yDragged = me.getY();
+				xd = xDragged;
+				yd = yDragged;
 
 				xDragged = me.getX();
 				yDragged = me.getY();
 
-				Graphics2D g2 = bImage.createGraphics();
-				g2.setColor(getC());
-				width = getW();
-				g2.setStroke(new BasicStroke(width));
-				g2.drawLine(xClicked, yClicked, xDragged, yDragged);
+				xDragged = me.getX();
+				yDragged = me.getY();
 
-				g2.dispose();
+				DrawUtils.drawLineNRefresh(bImage, getC(), getW(), xClicked, yClicked, xDragged, yDragged,
+						me.getComponent());
 				imageLabel.setIcon(new ImageIcon(bImage));
 
-				me.getComponent().invalidate();
-				me.getComponent().repaint();
+				try {
+					// letsGetItClient.getOos().writeObject("draw" + "#" + "3" +
+					// "#" + "2" + "#" + "1" + "#" + "0"); // test
+					StringBuilder builder = new StringBuilder();
+					builder.append("draw");
+					builder.append("#").append(xClicked);
+					builder.append("#").append(yClicked);
+					builder.append("#").append(xDragged);
+					builder.append("#").append(yDragged);
+					builder.append("#").append(getC().getRGB());
+					builder.append("#").append(width);
+
+					if (letsGetItUser instanceof LetsGetItClient) {
+						((LetsGetItClient) letsGetItUser).getOos().writeObject(builder.toString());
+					} else if (letsGetItUser instanceof LetsGetItServer) {
+						if (((LetsGetItServer) letsGetItUser).getSndThreadControl() != null)
+							((LetsGetItServer) letsGetItUser).getSndThreadControl().broadCasting(builder.toString());
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	};
 
-	public SheetDrawing() {
+	public BufferedImage getbImage() {
+		return bImage;
+	}
+
+	public SheetDrawing(File f) {
 		try {
-			bImage = ImageIO.read(new File(FILE_PATH));
+			bImage = ImageIO.read(f);
 			image = new ImageIcon(bImage);
+
+			g2 = bImage.createGraphics();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
+	public SheetDrawing(File f, JFrame letsGetItUser) {
+		this(f);
+		try {
+			this.letsGetItUser = letsGetItUser;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public void displayGUI() {
 		JFrame frame = new JFrame("Painting on Sheet");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
 		JPanel contentPane = new JPanel();
 		contentPane.setLayout(new BorderLayout());
 
@@ -179,7 +226,8 @@ public class SheetDrawing implements ActionListener {
 
 		frame.add(contentPane);
 		frame.pack();
-		frame.setBounds(600,200,600,500);
+
+    frame.setBounds(600, 200, 600, 500);
 		frame.setAlwaysOnTop(true);
 		frame.setVisible(true);
 
@@ -193,11 +241,7 @@ public class SheetDrawing implements ActionListener {
 		thin.addActionListener(this);
 		plain.addActionListener(this);
 	}
-
-	public static void main(String[] args) {
-		new SheetDrawing().displayGUI();
-	}
-
+  
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
@@ -213,7 +257,8 @@ public class SheetDrawing implements ActionListener {
 		} else if (obj == c) {
 			this.setC(Color.WHITE);
 		} else if (obj == ac) {
-			this.Allc();
+      File f = SheetMusic.f;
+			this.Allc(f);
 		} else if (obj == bold) {
 			width = 4;
 			this.setW(width);
@@ -223,7 +268,7 @@ public class SheetDrawing implements ActionListener {
 		} else if (obj == plain) {
 			width = 2;
 			this.setW(width);
+			this.setC(Color.BLACK);
 		}
 	}
 }
-

@@ -38,10 +38,16 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 	JButton DolemiBtn[];
 	
 	// Network Instrument 
-	LetsGetItClient letsGetItClient = new LetsGetItClient();
+
+	LetsGetItClient letsGetItClient;
+	SndThreadControl sndThreadControl;
+	private File f;
+	private SheetDrawing sheetDrawing;
 		
 	public void init() {
 		psheet = new JPanel();
+		psheet.setBackground(new Color(90, 84, 92));
+
 		psheet.setLayout(new GridLayout(1, 1));
 		chimg = img.getScaledInstance(650, 420, java.awt.Image.SCALE_SMOOTH);
 		JLabel sheet = new JLabel(new ImageIcon(chimg));
@@ -50,7 +56,9 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 	
 	public void instrumentInit() {
 		instruPanel = new JPanel();
-		instruimg = instrumentImg.getScaledInstance(650, 420, java.awt.Image.SCALE_SMOOTH);
+
+		instruPanel.setBackground(new Color(90, 84, 92));
+		instruimg = instrumentImg.getScaledInstance(800, 420, java.awt.Image.SCALE_SMOOTH);
 		JLabel instru = new JLabel(new ImageIcon(instruimg));
 		instruPanel.add(instru);
 	}
@@ -67,15 +75,21 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 		add(c);
 	}
 	
-	public MusicPlayClient(int index, int instrumentNum) throws IOException {
+	public MusicPlayClient(int index, int instrumentNum, LetsGetItClient letsGetItClient) throws IOException {		
+		this.letsGetItClient = letsGetItClient;
+		this.index = LetsGetItClient.getIndex();
+		
 		// MenuBar
 		mb = new JMenuBar();
 		setJMenuBar(mb);
 
 		mdrawing = new JMenu("Drawing");
 		mb.add(mdrawing);
+		mb.setBackground(new Color(90, 84, 92));
+		mdrawing.setForeground(Color.WHITE);
 
 		buttonPanel = new JPanel();
+		buttonPanel.setBackground(new Color(90, 84, 92));
 		
 		msheet = new JMenuItem("On Sheet");
 		mmemo = new JMenuItem("New Memo");
@@ -116,12 +130,13 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 
 		addGrid(gbl, gbc, psheet, 0, 0, 1, 1, 1, 1);
 		addGrid(gbl, gbc, instruPanel, 0, 1, 1, 1, 1, 4);
-		add(buttonPanel);
-		
+
+		addGrid(gbl, gbc, buttonPanel, 0, 2, 1, 1, 0, 0);	
 		pack();
 
 		setVisible(true);
-		setBounds(118, 50, 1237, 893);
+
+		setBounds(118, 50, 1000, 893);
 		setAlwaysOnTop(true);
 		setResizable(false);
 		
@@ -133,105 +148,14 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 		// TODO 코드 piano뿐만 아니라 bass drum elec까지 넣어야해서 코드 정리 필요함.
 		// Key Event
 		buttonPanel.requestFocus();
-		buttonPanel.addKeyListener(
-			new KeyAdapter() {
-				public void keyPressed(KeyEvent e) {
-					if(e.getKeyCode() == e.VK_A) {
-						
-						InstrumentPiano piano = new InstrumentPiano(0);
-						try {
-							piano.start();
-							synchronized(piano) {
-								piano.wait();
-							}
-						} catch(InterruptedException interrupt) {
-							interrupt.printStackTrace();
-						}
-					}
-					if(e.getKeyCode() == e.VK_S) {
-						InstrumentPiano piano = new InstrumentPiano(1);
-						try {
-							piano.start();
-							synchronized(piano) {
-								piano.wait();
-							}
-						} catch(InterruptedException interrupt) {
-							interrupt.printStackTrace();
-						}
-					}
-					if(e.getKeyCode() == e.VK_D) {
-						InstrumentPiano piano = new InstrumentPiano(2);
-						try {
-							piano.start();
-							synchronized(piano) {
-								piano.wait();
-							}
-						} catch(InterruptedException interrupt) {
-							interrupt.printStackTrace();
-						}
-					}
-					if(e.getKeyCode() == e.VK_F) {
-						InstrumentPiano piano = new InstrumentPiano(3);
-						try {
-							piano.start();
-							synchronized(piano) {
-								piano.wait();
-							}
-						} catch(InterruptedException interrupt) {
-							interrupt.printStackTrace();
-						}
-					}
-					if(e.getKeyCode() == e.VK_G) {
-						InstrumentPiano piano = new InstrumentPiano(4);
-						try {
-							piano.start();
-							synchronized(piano) {
-								piano.wait();
-							}
-						} catch(InterruptedException interrupt) {
-							interrupt.printStackTrace();
-						}
-					}
-					if(e.getKeyCode() == e.VK_H) {
-						InstrumentPiano piano = new InstrumentPiano(5);
-						try {
-							piano.start();
-							synchronized(piano) {
-								piano.wait();
-							}
-						} catch(InterruptedException interrupt) {
-							interrupt.printStackTrace();
-						}
-					}
-					if(e.getKeyCode() == e.VK_J) {
-						InstrumentPiano piano = new InstrumentPiano(6);
-						try {
-							piano.start();
-							synchronized(piano) {
-								piano.wait();
-							}
-						} catch(InterruptedException interrupt) {
-							interrupt.printStackTrace();
-						}
-					}
-					if(e.getKeyCode() == e.VK_K) {
-						InstrumentPiano piano = new InstrumentPiano(7);
-						try {
-							piano.start();
-							synchronized(piano) {
-								piano.wait();
-							}
-						} catch(InterruptedException interrupt) {
-							interrupt.printStackTrace();
-						}
-					}
-				}
-			}
-		);
+
+		MusicKeyAdapter adapter = new MusicKeyAdapter();
+		buttonPanel.addKeyListener(adapter);
 		
 		// Action Event
 		for(int i = 0; i < 8; i++) {
 			DolemiBtn[i].addActionListener(this);
+			DolemiBtn[i].addKeyListener(adapter);
 		}
 	}	// 생성자
 	
@@ -239,14 +163,20 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 		Object obj = event.getSource();
 		
 		// MenuItem
-		if(obj == msheet){
-			new SheetDrawing().displayGUI();
+
+		if (obj == msheet) {
+			try {
+				f = sm.showSheet(index);
+				SheetDrawing sheetDrawing = new SheetDrawing(f, letsGetItClient);
+				setSheetDrawing(sheetDrawing);
+				sheetDrawing.displayGUI();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
-		if(obj == mmemo){
-			
-		}
+
 		if(obj == msave){
-	//		sheetsave = new sheetsave();
 		}
 		
 		// play instrument
@@ -256,11 +186,13 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 					InstrumentPiano piano = new InstrumentPiano(i);
 					
 					try {
+						///System.out.println("music" + "#" + instrumentNum + "#" + i);
+						//letsGetItClient.setOos(new ObjectOutputStream(socket.getOutputStream()));
+						letsGetItClient.getOos().writeObject("music" + "#" + instrumentNum + "#" + i);
 						piano.start();
 						synchronized(piano) {
 							piano.wait();
 						}
-						letsGetItClient.getOos().writeObject(instrument + "#" + i);
 					} catch(InterruptedException interrupt) {
 						interrupt.printStackTrace();
 					} catch(IOException exception) {
@@ -274,8 +206,11 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 						synchronized(electric) {
 							electric.wait();
 						}
+						letsGetItClient.getOos().writeObject("music" + "#" + instrumentNum + "#" + i);
 					} catch(InterruptedException interrupt) {
 						interrupt.printStackTrace();
+					} catch (IOException e) {
+						e.printStackTrace();
 					}
 				} else if(instrumentNum == 2) {
 					InstrumentBass bass = new InstrumentBass(i);
@@ -284,8 +219,11 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 						synchronized(bass) {
 							bass.wait();
 						}
+						letsGetItClient.getOos().writeObject("music" + "#" + instrumentNum + "#" + i);
 					} catch(InterruptedException interrupt) {
 						interrupt.printStackTrace();
+					} catch (IOException e) {
+						e.printStackTrace();
 					}
 				} else if(instrumentNum == 3) {
 					InstrumentDrum drum = new InstrumentDrum(i);
@@ -294,12 +232,315 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 						synchronized(drum) {
 							drum.wait();
 						}
+						letsGetItClient.getOos().writeObject("music" + "#" + instrumentNum + "#" + i);
 					} catch(InterruptedException interrupt) {
 						interrupt.printStackTrace();
+					} catch (IOException e) {
+						e.printStackTrace();
 					}
 				}
 			}
 		}
 	}
 	
+	private void setSheetDrawing(SheetDrawing sheetDrawing) {
+		this.sheetDrawing = sheetDrawing;
+	}
+	
+	public SheetDrawing getSheetDrawing() {
+		return sheetDrawing;
+	}
+	
+	private final class MusicKeyAdapter extends KeyAdapter {
+		public void keyPressed(KeyEvent e) {
+			if (e.getKeyCode() == KeyEvent.VK_A) {
+				try {
+					letsGetItClient.getOos().writeObject("music" + "#" + instrumentNum + "#" + 0);
+
+					if(instrumentNum == 0) {	
+						InstrumentPiano piano = new InstrumentPiano(0);
+						piano.start();
+						synchronized (piano) {
+							piano.wait();
+						}
+					} else if(instrumentNum == 1) {
+						InstrumentElectric electric = new InstrumentElectric(0);
+						electric.start();
+						synchronized (electric) {
+							electric.wait();
+						}
+					} else if(instrumentNum == 2) {
+						InstrumentBass bass = new InstrumentBass(0);
+						bass.start();
+						synchronized (bass) {
+							bass.wait();
+						}
+					} else if (instrumentNum == 3) {
+						InstrumentDrum drum = new InstrumentDrum(0);
+						drum.start();
+						synchronized (drum) {
+							drum.wait();
+						}
+					}
+				} catch (InterruptedException interrupt) {
+					interrupt.printStackTrace();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			} 
+					
+			if (e.getKeyCode() == KeyEvent.VK_S) {
+				try {
+					letsGetItClient.getOos().writeObject("music" + "#" + instrumentNum + "#" + 0);
+
+					if(instrumentNum == 0) {	
+						InstrumentPiano piano = new InstrumentPiano(1);
+						piano.start();
+						synchronized (piano) {
+							piano.wait();
+						}
+					} else if(instrumentNum == 1) {
+						InstrumentElectric electric = new InstrumentElectric(1);
+						electric.start();
+						synchronized (electric) {
+							electric.wait();
+						}
+					} else if(instrumentNum == 2) {
+						InstrumentBass bass = new InstrumentBass(1);
+						bass.start();
+						synchronized (bass) {
+							bass.wait();
+						}
+					} else if (instrumentNum == 3) {
+						InstrumentDrum drum = new InstrumentDrum(1);
+						drum.start();
+						synchronized (drum) {
+							drum.wait();
+						}
+					}
+				} catch (InterruptedException interrupt) {
+					interrupt.printStackTrace();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
+
+			if (e.getKeyCode() == KeyEvent.VK_D) {
+				try {
+					letsGetItClient.getOos().writeObject("music" + "#" + instrumentNum + "#" + 0);
+
+					if(instrumentNum == 0) {	
+						InstrumentPiano piano = new InstrumentPiano(2);
+						piano.start();
+						synchronized (piano) {
+							piano.wait();
+						}
+					} else if(instrumentNum == 1) {
+						InstrumentElectric electric = new InstrumentElectric(2);
+						electric.start();
+						synchronized (electric) {
+							electric.wait();
+						}
+					} else if(instrumentNum == 2) {
+						InstrumentBass bass = new InstrumentBass(2);
+						bass.start();
+						synchronized (bass) {
+							bass.wait();
+						}
+					} else if (instrumentNum == 3) {
+						InstrumentDrum drum = new InstrumentDrum(2);
+						drum.start();
+						synchronized (drum) {
+							drum.wait();
+						}
+					}
+				} catch (InterruptedException interrupt) {
+					interrupt.printStackTrace();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
+
+			if (e.getKeyCode() == KeyEvent.VK_F) {
+				try {
+					letsGetItClient.getOos().writeObject("music" + "#" + instrumentNum + "#" + 0);
+
+					if(instrumentNum == 0) {	
+						InstrumentPiano piano = new InstrumentPiano(3);
+						piano.start();
+						synchronized (piano) {
+							piano.wait();
+						}
+					} else if(instrumentNum == 1) {
+						InstrumentElectric electric = new InstrumentElectric(3);
+						electric.start();
+						synchronized (electric) {
+							electric.wait();
+						}
+					} else if(instrumentNum == 2) {
+						InstrumentBass bass = new InstrumentBass(3);
+						bass.start();
+						synchronized (bass) {
+							bass.wait();
+						}
+					} else if (instrumentNum == 3) {
+						InstrumentDrum drum = new InstrumentDrum(3);
+						drum.start();
+						synchronized (drum) {
+							drum.wait();
+						}
+					}
+				} catch (InterruptedException interrupt) {
+					interrupt.printStackTrace();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
+
+			if (e.getKeyCode() == KeyEvent.VK_G) {
+				try {
+					letsGetItClient.getOos().writeObject("music" + "#" + instrumentNum + "#" + 0);
+
+					if(instrumentNum == 0) {	
+						InstrumentPiano piano = new InstrumentPiano(4);
+						piano.start();
+						synchronized (piano) {
+							piano.wait();
+						}
+					} else if(instrumentNum == 1) {
+						InstrumentElectric electric = new InstrumentElectric(4);
+						electric.start();
+						synchronized (electric) {
+							electric.wait();
+						}
+					} else if(instrumentNum == 2) {
+						InstrumentBass bass = new InstrumentBass(4);
+						bass.start();
+						synchronized (bass) {
+							bass.wait();
+						}
+					} else if (instrumentNum == 3) {
+						InstrumentDrum drum = new InstrumentDrum(4);
+						drum.start();
+						synchronized (drum) {
+							drum.wait();
+						}
+					}
+				} catch (InterruptedException interrupt) {
+					interrupt.printStackTrace();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
+
+			if (e.getKeyCode() == KeyEvent.VK_H) {
+				try {
+					letsGetItClient.getOos().writeObject("music" + "#" + instrumentNum + "#" + 0);
+
+					if(instrumentNum == 0) {	
+						InstrumentPiano piano = new InstrumentPiano(5);
+						piano.start();
+						synchronized (piano) {
+							piano.wait();
+						}
+					} else if(instrumentNum == 1) {
+						InstrumentElectric electric = new InstrumentElectric(5);
+						electric.start();
+						synchronized (electric) {
+							electric.wait();
+						}
+					} else if(instrumentNum == 2) {
+						InstrumentBass bass = new InstrumentBass(5);
+						bass.start();
+						synchronized (bass) {
+							bass.wait();
+						}
+					} else if (instrumentNum == 3) {
+						InstrumentDrum drum = new InstrumentDrum(5);
+						drum.start();
+						synchronized (drum) {
+							drum.wait();
+						}
+					}
+				} catch (InterruptedException interrupt) {
+					interrupt.printStackTrace();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
+
+			if (e.getKeyCode() == KeyEvent.VK_J) {
+				try {
+					letsGetItClient.getOos().writeObject("music" + "#" + instrumentNum + "#" + 0);
+
+					if(instrumentNum == 0) {	
+						InstrumentPiano piano = new InstrumentPiano(6);
+						piano.start();
+						synchronized (piano) {
+							piano.wait();
+						}
+					} else if(instrumentNum == 1) {
+						InstrumentElectric electric = new InstrumentElectric(6);
+						electric.start();
+						synchronized (electric) {
+							electric.wait();
+						}
+					} else if(instrumentNum == 2) {
+						InstrumentBass bass = new InstrumentBass(6);
+						bass.start();
+						synchronized (bass) {
+							bass.wait();
+						}
+					} else if (instrumentNum == 3) {
+						InstrumentDrum drum = new InstrumentDrum(6);
+						drum.start();
+						synchronized (drum) {
+							drum.wait();
+						}
+					}
+				} catch (InterruptedException interrupt) {
+					interrupt.printStackTrace();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
+
+			if (e.getKeyCode() == KeyEvent.VK_K) {
+				try {
+					letsGetItClient.getOos().writeObject("music" + "#" + instrumentNum + "#" + 0);
+
+					if(instrumentNum == 0) {	
+						InstrumentPiano piano = new InstrumentPiano(7);
+						piano.start();
+						synchronized (piano) {
+							piano.wait();
+						}
+					} else if(instrumentNum == 1) {
+						InstrumentElectric electric = new InstrumentElectric(7);
+						electric.start();
+						synchronized (electric) {
+							electric.wait();
+						}
+					} else if(instrumentNum == 2) {
+						InstrumentBass bass = new InstrumentBass(7);
+						bass.start();
+						synchronized (bass) {
+							bass.wait();
+						}
+					} else if (instrumentNum == 3) {
+						InstrumentDrum drum = new InstrumentDrum(7);
+						drum.start();
+						synchronized (drum) {
+							drum.wait();
+						}
+					}
+				} catch (InterruptedException interrupt) {
+					interrupt.printStackTrace();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
+
+		}
+	}
 }
