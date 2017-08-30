@@ -134,7 +134,7 @@ public class LetsGetItClient extends JFrame implements ActionListener {
 		chatArea.setBackground(new Color(62, 60, 63));
 		chatArea.setForeground(Color.WHITE);
 		chatArea.setFont(font);
-		chatField = new JTextField(13);
+		chatField = new JTextField(15);
 		chatField.setBackground(new Color(62, 60, 63));
 		chatField.setForeground(Color.WHITE);
 		chatField.setFont(font);

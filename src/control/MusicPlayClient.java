@@ -276,7 +276,7 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 					
 			if (e.getKeyCode() == KeyEvent.VK_S) {
 				try {
-					letsGetItClient.getOos().writeObject("music" + "#" + instrumentNum + "#" + 0);
+					letsGetItClient.getOos().writeObject("music" + "#" + instrumentNum + "#" + 1);
 
 					if(instrumentNum == 0) {	
 						InstrumentPiano piano = new InstrumentPiano(1);
@@ -312,7 +312,7 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 
 			if (e.getKeyCode() == KeyEvent.VK_D) {
 				try {
-					letsGetItClient.getOos().writeObject("music" + "#" + instrumentNum + "#" + 0);
+					letsGetItClient.getOos().writeObject("music" + "#" + instrumentNum + "#" + 2);
 
 					if(instrumentNum == 0) {	
 						InstrumentPiano piano = new InstrumentPiano(2);
@@ -348,7 +348,7 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 
 			if (e.getKeyCode() == KeyEvent.VK_F) {
 				try {
-					letsGetItClient.getOos().writeObject("music" + "#" + instrumentNum + "#" + 0);
+					letsGetItClient.getOos().writeObject("music" + "#" + instrumentNum + "#" + 3);
 
 					if(instrumentNum == 0) {	
 						InstrumentPiano piano = new InstrumentPiano(3);
@@ -384,7 +384,7 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 
 			if (e.getKeyCode() == KeyEvent.VK_G) {
 				try {
-					letsGetItClient.getOos().writeObject("music" + "#" + instrumentNum + "#" + 0);
+					letsGetItClient.getOos().writeObject("music" + "#" + instrumentNum + "#" + 4);
 
 					if(instrumentNum == 0) {	
 						InstrumentPiano piano = new InstrumentPiano(4);
@@ -420,7 +420,7 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 
 			if (e.getKeyCode() == KeyEvent.VK_H) {
 				try {
-					letsGetItClient.getOos().writeObject("music" + "#" + instrumentNum + "#" + 0);
+					letsGetItClient.getOos().writeObject("music" + "#" + instrumentNum + "#" + 5);
 
 					if(instrumentNum == 0) {	
 						InstrumentPiano piano = new InstrumentPiano(5);
@@ -456,7 +456,7 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 
 			if (e.getKeyCode() == KeyEvent.VK_J) {
 				try {
-					letsGetItClient.getOos().writeObject("music" + "#" + instrumentNum + "#" + 0);
+					letsGetItClient.getOos().writeObject("music" + "#" + instrumentNum + "#" + 6);
 
 					if(instrumentNum == 0) {	
 						InstrumentPiano piano = new InstrumentPiano(6);
@@ -492,7 +492,7 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 
 			if (e.getKeyCode() == KeyEvent.VK_K) {
 				try {
-					letsGetItClient.getOos().writeObject("music" + "#" + instrumentNum + "#" + 0);
+					letsGetItClient.getOos().writeObject("music" + "#" + instrumentNum + "#" + 7);
 
 					if(instrumentNum == 0) {	
 						InstrumentPiano piano = new InstrumentPiano(7);

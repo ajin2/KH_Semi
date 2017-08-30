@@ -47,6 +47,7 @@ class Ex1 extends JFrame implements ActionListener {
 			str = tf.getText();
 			setStr(str);
 			
+			
 			LetsGetItClient letsGetItC;
 			try {
 				letsGetItC = new LetsGetItClient("172.30.1.7", 5000, getStr());
