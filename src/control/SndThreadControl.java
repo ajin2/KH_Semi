@@ -84,7 +84,6 @@ public class SndThreadControl implements Runnable {
 							interrupt.printStackTrace();
 						}
 					}
-					
 				} else if(str[0].equals("sheet")) {
 					
 				} else if(str[0].equals("draw")) {
@@ -110,8 +109,6 @@ public class SndThreadControl implements Runnable {
 				} else if(str[0].equals("ready")) {
 					
 				} else if(str[0].equals("Allc")){
-					broadCasting(message);
-					
 					File f = SheetMusic.f;
 					server.getSheetDrawing().Allc(f);
 				}
