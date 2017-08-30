@@ -50,7 +50,7 @@ class Ex1 extends JFrame implements ActionListener {
 			
 			LetsGetItClient letsGetItC;
 			try {
-				letsGetItC = new LetsGetItClient("172.30.1.7", 5000, getStr());
+				letsGetItC = new LetsGetItClient("localhost", 5000, getStr());
 				letsGetItC.init();
 			} catch (IOException e1) {
 				e1.printStackTrace();

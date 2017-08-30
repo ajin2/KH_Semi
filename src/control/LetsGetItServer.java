@@ -251,7 +251,9 @@ public class LetsGetItServer extends JFrame implements ActionListener {
 		if (obj == ok) {
 			try {
 				mp = new MusicPlay(getIndex(), this); 
-				sndThreadControl.broadCasting("sheet" + "#" + getIndex());
+				if(sndThreadControl != null){
+					sndThreadControl.broadCasting("sheet" + "#" + getIndex());
+				}
 				chatArea.append("Selected a Music Sheet" + "\n");
 			} catch (IOException ee) {
 				ee.printStackTrace();

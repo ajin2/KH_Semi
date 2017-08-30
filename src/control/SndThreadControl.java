@@ -84,8 +84,6 @@ public class SndThreadControl implements Runnable {
 							interrupt.printStackTrace();
 						}
 					}
-				} else if(str[0].equals("sheet")) {
-					
 				} else if(str[0].equals("draw")) {
 					/* 자기 자신의 그림판에도 그리기 */
 					// 서버가 보낸 draw 정보
@@ -109,8 +107,7 @@ public class SndThreadControl implements Runnable {
 				} else if(str[0].equals("ready")) {
 					
 				} else if(str[0].equals("Allc")){
-					File f = SheetMusic.f;
-					server.getSheetDrawing().Allc(f);
+					server.getSheetDrawing().Allc(SheetMusic.f);
 				}
 				broadCasting(message);
 			}
