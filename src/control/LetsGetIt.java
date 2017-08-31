@@ -39,7 +39,6 @@ public class LetsGetIt extends JFrame {
 	public static void main(String[] args) throws IOException { 
 		
 		LetsGetIt letsGetIt = new LetsGetIt();			
-
 		letsGetIt.Server();	
 	}
 }

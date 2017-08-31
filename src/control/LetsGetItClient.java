@@ -41,11 +41,6 @@ public class LetsGetItClient extends JFrame implements ActionListener {
 
 	HelpSub hs;
 
-	/*
-	 * TODO Client가 악기 선택했을 때마다 cnt++ (cnt = client의 사람인원수)가 되었을때
-	 * MusicPlayClient Window가 활동되도록 수정해야함.
-	 */
-
 	// Network Module
 	private Socket socket;
 	private ObjectInputStream ois;
@@ -55,7 +50,6 @@ public class LetsGetItClient extends JFrame implements ActionListener {
 	private RcvThreadControl rtc;
 	private boolean choosenSheet;
 
-	// TODO 서버가 지정한 악보 데이터로 바꿔야함.
 	public static int getIndex() {
 		return index;
 	}
@@ -239,7 +233,8 @@ public class LetsGetItClient extends JFrame implements ActionListener {
 			String str = chatField.getText();
 			if (!str.equals("")) {
 				try {
-					oos.writeObject("chat" + "#" + id + "#" + msg);
+					if(str.equals("exit")) oos.writeObject("chat" + "#" + id + "#" + "exit");	
+					else oos.writeObject("chat" + "#" + id + "#" + msg);
 				} catch (IOException exception) {
 					exception.printStackTrace();
 				}

@@ -42,7 +42,7 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 		psheet.setBackground(new Color(90, 84, 92));
 
 		psheet.setLayout(new GridLayout(1, 1));
-		chimg = img.getScaledInstance(650, 420, java.awt.Image.SCALE_SMOOTH);
+		chimg = img.getScaledInstance(700, 430, java.awt.Image.SCALE_SMOOTH);
 		JLabel sheet = new JLabel(new ImageIcon(chimg));
 		psheet.add(sheet);
 	}
@@ -50,7 +50,7 @@ public class MusicPlayClient extends JFrame implements ActionListener {
 	public void instrumentInit() {
 		instruPanel = new JPanel();
 		instruPanel.setBackground(new Color(90, 84, 92));
-		instruimg = instrumentImg.getScaledInstance(800, 420, java.awt.Image.SCALE_SMOOTH);
+		instruimg = instrumentImg.getScaledInstance(780, 410, java.awt.Image.SCALE_SMOOTH);
 		JLabel instru = new JLabel(new ImageIcon(instruimg));
 		instruPanel.add(instru);
 	}
