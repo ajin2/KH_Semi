@@ -224,7 +224,7 @@ public class SheetDrawing implements ActionListener {
 
 		frame.add(contentPane);
 		frame.pack();
-		frame.setBounds(600, 200, 600, 500);
+		frame.setBounds(600, 200, 720, 620);
 		frame.setAlwaysOnTop(true);
 		frame.setVisible(true);
 

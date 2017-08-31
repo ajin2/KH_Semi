@@ -13,7 +13,6 @@ public class SndThreadControl implements Runnable {
 	private ObjectInputStream ois;
 	private ObjectOutputStream oos;
 	SheetDrawing sd;
-	private SheetMusic sm;
 	
 	public SndThreadControl(LetsGetItServer server) {
 		this.server = server;
@@ -34,14 +33,15 @@ public class SndThreadControl implements Runnable {
 				if(str[0].equals("chat")) {
 					// 대화 내용에 #이 존재할 수 있기 때문에 그대로 다시 문자열로 보내고 클래스에서 처리
 					if(str[2].equals("exit")) {
-						server.getThreadList().remove(this);
-						System.out.println(str[1] + "님이 정상적으로 종료하셨습니다.(Server)");
-						isStop = true;
+						server.chatArea.append((str[1] + "님이 정상적으로 종료하셨습니다.\n"));	// 사용자 종료 시 서버에서 보냄
 					} else {
 						// 지금은 채팅 데이터에 사용자가 #을 입력할 경우, 뒤에 다 잘림.
 						System.out.println(str[1] + str[2]);
 						server.getChatArea().append(str[1] + " >> " + str[2] + "\n");
 					}
+				} else if(str[0].equals("login")){
+					server.chatArea.append((str[1] + "님이 입장하셨습니다.\n"));
+					
 				} else if(str[0].equals("music")) {
 					if(str[1].equals("0")) {		// piano
 						InstrumentPiano piano = new InstrumentPiano(Integer.parseInt(str[2]));					
@@ -84,8 +84,6 @@ public class SndThreadControl implements Runnable {
 							interrupt.printStackTrace();
 						}
 					}
-				} else if(str[0].equals("sheet")) {
-					
 				} else if(str[0].equals("draw")) {
 					/* 자기 자신의 그림판에도 그리기 */
 					// 서버가 보낸 draw 정보
@@ -109,8 +107,7 @@ public class SndThreadControl implements Runnable {
 				} else if(str[0].equals("ready")) {
 					
 				} else if(str[0].equals("Allc")){
-					File f = SheetMusic.f;
-					server.getSheetDrawing().Allc(f);
+					server.getSheetDrawing().Allc(SheetMusic.f);
 				}
 				broadCasting(message);
 			}

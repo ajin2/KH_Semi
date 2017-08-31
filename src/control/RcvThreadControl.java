@@ -8,17 +8,17 @@ import java.util.ArrayList;
 
 import javax.swing.JLabel;
 
-public class RcvThreadControl  extends Thread {
+public class RcvThreadControl extends Thread {
 	private LetsGetItClient client;
 	SheetDrawing sd;
 	SheetMusic sm;
 	int index;
-	private ArrayList <MusicPlayClient> musicPlayClientList = new ArrayList<>();
-	
+	private ArrayList<MusicPlayClient> musicPlayClientList = new ArrayList<>();
+
 	public RcvThreadControl(LetsGetItClient clinet) {
 		this.client = clinet;
 	}
-	
+
 	public void run() {
 		String message = null;
 		String[] receiveMsg = null;
@@ -36,13 +36,19 @@ public class RcvThreadControl  extends Thread {
 				isStop = true;
 			}
 			
+			for(String msg : receiveMsg){
+				System.err.println(msg);
+			}
+			
 			// Chat
 			if(receiveMsg[0].equals("chat")) {
 				if(receiveMsg[2].equals("exit")) {
+					System.err.println("꺼져라");
 					if(receiveMsg[1].equals(client.getId())) {
 						client.exit();
+						isStop = true;
 					} else {
-						client.getChatArea().append(receiveMsg[1] +"님이 종료 하셨습니다.(Client)");
+						client.getChatArea().append(receiveMsg[1] +"님이 종료 하셨습니다.\n");	// 여기까지 뜸
 						client.getChatArea().setCaretPosition(
 								client.getChatArea().getDocument().getLength());
 					}
@@ -50,6 +56,9 @@ public class RcvThreadControl  extends Thread {
 					client.getChatArea().append(receiveMsg[1] + " : " + receiveMsg[2] + System.getProperty("line.separator"));
 					client.getChatArea().setCaretPosition(client.getChatArea().getDocument().getLength());				
 				} 
+			}
+			else if(receiveMsg[0].equals("login")){
+				client.getChatArea().append(receiveMsg[1] +"님이 입장하셨습니다.\n");
 				
 			// Music	
 			} else if(receiveMsg[0].equals("music")) {
@@ -138,9 +147,9 @@ public class RcvThreadControl  extends Thread {
 			}
 		}
 	}
-	
 	/**
 	 * 그리기 객체를 얻어오기 위해서 MusicPlayClient를 리스트에 저장
+	 * 
 	 * @param musicPlayClient
 	 */
 	public void addMusicPlayClient(MusicPlayClient musicPlayClient) {

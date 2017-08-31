@@ -15,18 +15,18 @@ public class SheetMusic extends JFrame {
 
 	public File showSheet(int index) throws IOException {
 		this.index = index;
-		File f = new File("");
+		f = new File("");
 
 		if (index == 0) {
-			f = new File("img/곰세마리.png");
+			f = new File("img/곰세마리.jpg");
 		} else if (index == 1) {
 			f = new File("img/나비야.jpg");
 		} else if (index == 2) {
-			f = new File("img/학교종.png");
+			f = new File("img/학교종.jpg");
 		} else if (index == 3) {
-			f = new File("img/버즈-겁쟁이.jpg");
+			f = new File("img/올챙이와 개구리.jpg");
 		} else if (index == 4) {
-			f = new File("img/메모.jpg");
+			f = new File("img/퐁당퐁당.jpg");
 		}
 
 		return f;

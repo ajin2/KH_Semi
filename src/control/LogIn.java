@@ -8,16 +8,17 @@ import java.net.UnknownHostException;
 import java.util.*;
 import javax.swing.*;
 
-class Ex1 extends JFrame implements ActionListener {
+class LogIn extends JFrame implements ActionListener {
 	JPanel Hyeok;
 	JLabel la;
 	JTextField tf;
 	String id;
 	JButton loginButton;
-	String str;
+	String userId;
 	LetsGetItClient lc;
+	SndThreadControl stc;
 	
-	public Ex1() throws UnknownHostException, IOException {
+	public LogIn() throws UnknownHostException, IOException {
 		Hyeok = new JPanel();
 		Hyeok.setBackground(new Color(62, 60, 63));
 		
@@ -44,14 +45,15 @@ class Ex1 extends JFrame implements ActionListener {
 		Object obj = e.getSource();
 
 		if (obj == loginButton) {
-			str = tf.getText();
-			setStr(str);
+			userId = tf.getText();
+			setStr(userId);
 			
-			
+			this.dispose();
 			LetsGetItClient letsGetItC;
 			try {
-				letsGetItC = new LetsGetItClient("172.30.1.7", 5000, getStr());
+				letsGetItC = new LetsGetItClient("localhost", 5000, getStr());
 				letsGetItC.init();
+				letsGetItC.getOos().writeObject("login"+"#"+getStr());
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
@@ -59,14 +61,14 @@ class Ex1 extends JFrame implements ActionListener {
 	}
 
 	public void setStr(String str) {
-		this.str = str;
+		this.userId = str;
 	}
 
 	public String getStr() {
-		return str;
+		return userId;
 	}
 
 	public static void main(String[] args) throws UnknownHostException, IOException {
-		new Ex1();
+		new LogIn();
 	}
 }

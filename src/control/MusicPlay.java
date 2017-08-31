@@ -19,10 +19,11 @@ public class MusicPlay extends JFrame implements ActionListener {
 	private LetsGetItServer letsGetItServer;
 	private SheetDrawing sheetDrawing;
 
-	public void init() {
+	public void init(Image img) {
+		this.img = img;
 		psheet = new JPanel();
 		psheet.setLayout(new GridLayout(1, 1));
-		chimg = img.getScaledInstance(650, 420, java.awt.Image.SCALE_SMOOTH);
+		chimg = img.getScaledInstance(700, 550, java.awt.Image.SCALE_SMOOTH);
 		JLabel sheet = new JLabel(new ImageIcon(chimg));
 		psheet.add(sheet);
 	}
@@ -59,7 +60,7 @@ public class MusicPlay extends JFrame implements ActionListener {
 		// Sheet Print
 		sm = new SheetMusic();
 		img = ImageIO.read(sm.showSheet(index));
-		init();
+		init(img);
 
 		GridBagLayout gbl = new GridBagLayout();
 		GridBagConstraints gbc = new GridBagConstraints();
@@ -71,10 +72,10 @@ public class MusicPlay extends JFrame implements ActionListener {
 		pack();
 
 		setVisible(true);
-		setBounds(118, 50, 1237, 893);
+		setBounds(130, 150, 850, 800);
 		setAlwaysOnTop(true);
 		setResizable(false);
-
+		
 		msheet.addActionListener(this);
 		msave.addActionListener(this);
 	}
